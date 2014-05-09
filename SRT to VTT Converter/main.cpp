@@ -17,7 +17,7 @@ int main(int argc, char* argv[])
 
 		//Define arguements
 		TCLAP::UnlabeledValueArg<string> inputArg("input",
-			"File to convert or direcotry containing files to convert (to convert files in a directory and it's subdirectories, us the -r switch.",
+			"File to convert or direcotry containing files to convert (to convert files in a directory and it's subdirectories, include the -r switch.",
 			false, ".", "string");
 		cmd.add(inputArg);
 
