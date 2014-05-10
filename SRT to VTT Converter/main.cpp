@@ -21,7 +21,7 @@ bool isDir(const string &path)
 {
 #if defined(_WIN32) || defined(WIN32)
 	DWORD ftype = GetFileAttributesA(path.c_str());
-	if (ftype & FILE_ATTRIBUTE_DIRECTORY)
+	if (ftype == FILE_ATTRIBUTE_DIRECTORY)
 		return true;
 #else
 	struct stat st;
