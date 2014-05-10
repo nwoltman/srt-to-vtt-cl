@@ -26,10 +26,10 @@ int main(int argc, char* argv[])
 			false, 0, "integer");
 		cmd.add(offsetArg);
 
-		TCLAP::ValueArg<string> dirArg("o", "output-dir",
+		TCLAP::ValueArg<string> outputArg("o", "output-dir",
 			"The path to a directory where all output VTT files will be saved.",
 			false, "", "string");
-		cmd.add(dirArg);
+		cmd.add(outputArg);
 
 		TCLAP::SwitchArg recursiveArg("r", "recursive", string()
 			+ "If the input is a directory, this flag indicates its subdirectories will be searched recursively for .srt files to convert."
@@ -42,13 +42,13 @@ int main(int argc, char* argv[])
 		//Get the value parsed by each arg.
 		string input = inputArg.getValue();
 		int offset = offsetArg.getValue();
-		string dir = dirArg.getValue();
+		string outputDir = outputArg.getValue();
 		bool recursive = recursiveArg.getValue();
 
 		//Debugging
 		cout << "Input is: " << input << endl;
 		cout << "Offset time is: " << offset << endl;
-		cout << "Output directory is: " << dir << endl;
+		cout << "Output directory is: " << outputDir << endl;
 		cout << "Recursive? - " << recursive << endl;
 	}
 	catch (TCLAP::ArgException &e) {
