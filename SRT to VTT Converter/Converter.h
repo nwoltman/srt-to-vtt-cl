@@ -6,7 +6,7 @@
 class Converter
 {
 public:
-	Converter(int timeOffsetMs = 0, std::string outputDir = "", bool quiet = false);
+	Converter(int timeOffsetMs = 0, const std::string &outputDir = "", bool quiet = false);
 	~Converter();
 
 	/**
@@ -22,10 +22,11 @@ public:
 	 * @param dirpath The path the directory in which to search for .srt files to convert.
 	 * @param recursive Set this to true to recursively search subdirectories for .srt files to convert. Defaults to false.
 	 */
-	void convertDirectory(std::string dirpath, bool recursive = false);
+	void convertDirectory(std::string &dirpath, bool recursive = false);
 
 private:
-	void print(std::string info); // Prints information to the console
+	void trimPath(std::string &path); // Trims any trailing slash ('/' or '\') from the path
+	void print(std::string info);     // Prints information to the console
 
 	int _timeOffsetMs;      // The timing offset in milliseconds
 	std::string _outputDir; // The directory in which the converted .vtt files will be saved.
