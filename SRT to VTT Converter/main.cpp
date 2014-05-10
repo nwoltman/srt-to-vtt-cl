@@ -36,6 +36,9 @@ int main(int argc, char* argv[])
 			+ " This flag is ignored if the input is a file.");
 		cmd.add(recursiveArg);
 
+		TCLAP::SwitchArg quietArg("q", "quiet", "Prevents details about the conversion from being printed to the console.");
+		cmd.add(quietArg);
+
 		//Parse the argv array.
 		cmd.parse(argc, argv);
 
@@ -44,12 +47,14 @@ int main(int argc, char* argv[])
 		int offset = offsetArg.getValue();
 		string outputDir = outputArg.getValue();
 		bool recursive = recursiveArg.getValue();
+		bool quiet = quietArg.getValue();
 
 		//Debugging
 		cout << "Input is: " << input << endl;
 		cout << "Offset time is: " << offset << endl;
 		cout << "Output directory is: " << outputDir << endl;
 		cout << "Recursive? - " << recursive << endl;
+		cout << "Quiet? - " << quiet << endl;
 	}
 	catch (TCLAP::ArgException &e) {
 		cerr << "error: " << e.error() << " for arg " << e.argId() << endl;
