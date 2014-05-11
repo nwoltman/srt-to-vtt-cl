@@ -3,6 +3,10 @@ SRT to VTT Command Line
 
 A command line application that converts subtitle files from SubRib (.srt) format to WebVTT (.vtt) format.
 
+## Binaries
+
+* [Windows](https://raw.githubusercontent.com/woollybogger/srt-to-vtt-cl/master/bin/Windows/srt-vtt.exe "Download the 32-bit Windows binary file")
+
 ## USAGE
 
 ```
