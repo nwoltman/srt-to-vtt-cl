@@ -4,7 +4,6 @@
 #include <iostream>
 #include <limits>
 #include <string>
-#include <tclap/CmdLine.h>
 
 #if defined(_WIN32) || defined(WIN32)
 #include <Windows.h>
@@ -82,6 +81,10 @@ int main(int argc, char* argv[])
 		cout << "Output directory is: " << outputDir << endl;
 		cout << "Recursive? - " << recursive << endl;
 		cout << "Quiet? - " << quiet << endl;
+
+		if (outputDir.length() && !isDir(outputDir)) {
+			system(string("mkdir \"" + outputDir + "\"").c_str());
+		}
 
 		//Convert
 		Converter converter(timeOffset, outputDir, quiet);
