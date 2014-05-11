@@ -4,6 +4,7 @@
 #include <iostream>
 #include <limits>
 #include <string>
+#include <tclap/CmdLine.h>
 
 #if defined(_WIN32) || defined(WIN32)
 #include <Windows.h>
