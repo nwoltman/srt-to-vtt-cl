@@ -8,6 +8,11 @@ A command line application that converts subtitle files from SubRib (.srt) forma
 * [Windows](https://raw.githubusercontent.com/woollybogger/srt-to-vtt-cl/master/bin/Windows/srt-vtt.exe "Download the 32-bit Windows binary file")
 
 ## Usage
+
+For the most basic usage, simply put the binary file in the same directory as the .srt files you want to convert and run the converter. This will convert all files in that directory and save them with the .vtt extension.
+
+For more advanced usage, see below:
+
 ```
 srt-vtt [-q] [-r] [-o <string>] [-t <integer>] [--] [--version] [-h] <string>
 
