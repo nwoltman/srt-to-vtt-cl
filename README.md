@@ -24,6 +24,9 @@ srt-vtt [-q] [-r] [-o <string>] [-t <integer>] [--] [--version] [-h] <string>
    -t <integer>,  --offset <integer>
      Timing offset in milliseconds. Can be any integer between 2147483647 and -2147483648.
 
+   --,  --ignore_rest
+     Ignores the rest of the labeled arguments following this flag.
+
    --version
      Displays version information and exits.
 
