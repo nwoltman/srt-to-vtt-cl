@@ -7,8 +7,7 @@ A command line application that converts subtitle files from SubRib (.srt) forma
 
 * [Windows](https://raw.githubusercontent.com/woollybogger/srt-to-vtt-cl/master/bin/Windows/srt-vtt.exe "Download the 32-bit Windows binary file")
 
-## USAGE
-
+## Usage
 ```
 srt-vtt [-q] [-r] [-o <string>] [-t <integer>] [--] [--version] [-h] <string>
 
