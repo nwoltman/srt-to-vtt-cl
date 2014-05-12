@@ -2,7 +2,7 @@
 #include <dirent.h>
 #include <fstream>
 #include <iostream>
-#include <limits>
+#include <limits.h>
 #include <string>
 #include <tclap/CmdLine.h>
 
@@ -17,7 +17,7 @@
 using namespace std;
 
 
-bool isDir(const string &path)
+bool isDir(const string& path)
 {
 #if defined(_WIN32) || defined(WIN32)
 	DWORD ftype = GetFileAttributesA(path.c_str());
@@ -25,8 +25,7 @@ bool isDir(const string &path)
 		return true;
 #else
 	struct stat st;
-	lstat(dent->d_name, &st);
-	if (S_ISDIR(st.st_mode))
+	if(stat(path.c_str(), &st) == 0 && (st.st_mode & S_IFDIR))
 		return true;
 #endif
 

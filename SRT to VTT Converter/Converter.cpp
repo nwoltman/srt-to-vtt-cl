@@ -25,7 +25,7 @@ Converter::Converter(int timeOffsetMs, const std::string& outputDir, bool quiet)
 	Utils::rtrim(_outputDir, '\\');
 }
 
-void Converter::convertDirectory(std::string &dirpath, bool recursive)
+void Converter::convertDirectory(std::string& dirpath, bool recursive)
 {
 	//Strip trailing slashes from the directory's path
 	Utils::rtrim(dirpath, '/');
@@ -58,7 +58,8 @@ void Converter::convertDirectory(std::string &dirpath, bool recursive)
 			case DT_DIR:
 				//If recursive, search subdirectories
 				if (recursive && item != "." && item != "..") {
-					convertDirectory(dirpath + DIR_SEPARATOR + item, recursive);
+					string subdir = dirpath + DIR_SEPARATOR + item;
+					convertDirectory(subdir, recursive);
 				}
 				break;
 
@@ -75,13 +76,13 @@ void Converter::convertFile(std::string filepath)
 	print("Converting file: " + filepath);
 
 	//Determine path of the output file
-	string outpath = regex_replace(filepath, regex("\\.srt$", regex_constants::icase), "") + ".vtt";
+	string outpath = regex_replace(filepath, regex("\\.srt$", regex_constants::icase), string("")) + ".vtt";
 	if (!_outputDir.empty()) {
 		outpath = _outputDir + DIR_SEPARATOR + outpath.substr(outpath.find_last_of(DIR_SEPARATOR) + 1);
 	}
 	
 	try {
-		regex rgxDialogNumber("^\\d+$");
+		regex rgxDialogNumber("\\d+");
 		regex rgxTimeFrame("(\\d\\d:\\d\\d:\\d\\d,\\d{3}) --> (\\d\\d:\\d\\d:\\d\\d,\\d{3})");
 
 		ifstream infile(filepath);
@@ -139,7 +140,7 @@ void Converter::convertFile(std::string filepath)
 
 void Converter::skipBom(istream & in)
 {
-	const char bom[3] = { 0xEF, 0xBB, 0xBF };
+	const char bom[3] = { (char)0xEF, (char)0xBB, (char)0xBF };
 	char test[3] = { 0 };
 	in.read(test, 3);
 	if (*test != *bom) {
