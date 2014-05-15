@@ -1,3 +1,12 @@
+/**
+ * @file Converter.h
+ * Header file for the Convert class.
+ *
+ * @author Nathan Woltman
+ * @copyright 2014 Nathan Woltman
+ * @license MIT https://github.com/woollybogger/srt-to-vtt-cl/blob/master/LICENSE.txt
+ */
+
 #ifndef CONVERTER_H_
 #define CONVERTER_H_
 

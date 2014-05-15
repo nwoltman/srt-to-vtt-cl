@@ -1,36 +1,22 @@
-#include <cstdlib>
-#include <dirent.h>
-#include <fstream>
+/**
+ * @file main.cpp
+ * Main file for the SRT to VTT Converter. Processes command line options.
+ *
+ * @version 1.0.0
+ * @author Nathan Woltman
+ * @copyright 2014 Nathan Woltman
+ * @license MIT https://github.com/woollybogger/srt-to-vtt-cl/blob/master/LICENSE.txt
+ */
+
 #include <iostream>
 #include <limits.h>
 #include <string>
 #include <tclap/CmdLine.h>
-
-#if defined(_WIN32) || defined(WIN32)
-#include <Windows.h>
-#else
-#include <sys/stat.h>
-#endif
-
 #include "Converter.h"
+#include "Utils.h"
 
 using namespace std;
 
-
-bool isDir(const string& path)
-{
-#if defined(_WIN32) || defined(WIN32)
-	DWORD ftype = GetFileAttributesA(path.c_str());
-	if (ftype == FILE_ATTRIBUTE_DIRECTORY)
-		return true;
-#else
-	struct stat st;
-	if(stat(path.c_str(), &st) == 0 && (st.st_mode & S_IFDIR))
-		return true;
-#endif
-
-	return false;
-}
 
 int main(int argc, char* argv[])
 {
@@ -39,7 +25,7 @@ int main(int argc, char* argv[])
 		TCLAP::CmdLine cmd(string("`srt-vtt` converts SubRip subtitles to the WebVTT subtitle format.\n")
 				+ "If called without any arguments, all .srt files in the current directory will be converted and left within the current directory.\n"
 				+ "Written by Nathan Woltman and distributed under the MIT license.",
-			' ', "0.0.1");
+			' ', "1.0.0");
 
 		//Define arguements
 		TCLAP::UnlabeledValueArg<string> inputArg("input",
@@ -65,30 +51,19 @@ int main(int argc, char* argv[])
 		TCLAP::SwitchArg quietArg("q", "quiet", "Prevents details about the conversion from being printed to the console.");
 		cmd.add(quietArg);
 
-		//Parse the argv array.
+		//Parse the argv array
 		cmd.parse(argc, argv);
 
-		//Get the value parsed by each arg.
+		//Get the value parsed by each arg
 		string input = inputArg.getValue();
 		int timeOffset = offsetArg.getValue();
 		string outputDir = outputArg.getValue();
 		bool recursive = recursiveArg.getValue();
 		bool quiet = quietArg.getValue();
 
-		//Debugging
-		cout << "Input is: " << input << endl;
-		cout << "Offset time is: " << timeOffset << endl;
-		cout << "Output directory is: " << outputDir << endl;
-		cout << "Recursive? - " << recursive << endl;
-		cout << "Quiet? - " << quiet << endl;
-
-		if (outputDir.length() && !isDir(outputDir)) {
-			system(string("mkdir \"" + outputDir + "\"").c_str());
-		}
-
 		//Convert
 		Converter converter(timeOffset, outputDir, quiet);
-		if (isDir(input)) {
+		if (Utils::isDir(input)) {
 			converter.convertDirectory(input, recursive);
 		}
 		else {

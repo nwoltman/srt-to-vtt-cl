@@ -1,3 +1,12 @@
+/**
+ * @file Converter.cpp
+ * Implementation for the Converter class.
+ *
+ * @author Nathan Woltman
+ * @copyright 2014 Nathan Woltman
+ * @license MIT https://github.com/woollybogger/srt-to-vtt-cl/blob/master/LICENSE.txt
+ */
+
 #include <codecvt>
 #include <dirent.h>
 #include <fstream>
@@ -73,13 +82,18 @@ void Converter::convertDirectory(std::string& dirpath, bool recursive)
 
 void Converter::convertFile(std::string filepath)
 {
-	print("Converting file: " + filepath);
-
 	//Determine path of the output file
 	string outpath = regex_replace(filepath, regex("\\.srt$", regex_constants::icase), string("")) + ".vtt";
-	if (!_outputDir.empty()) {
+
+	if (!_outputDir.empty()) { //The user specified an output directory
+		if (!Utils::isDir(_outputDir)) {
+			print("Creating directory: " + _outputDir);
+			system(string("mkdir \"" + _outputDir + "\"").c_str());
+		}
 		outpath = _outputDir + DIR_SEPARATOR + outpath.substr(outpath.find_last_of(DIR_SEPARATOR) + 1);
 	}
+
+	print("Converting file: " + filepath + " => " + outpath);
 	
 	try {
 		regex rgxDialogNumber("\\d+");
@@ -96,7 +110,7 @@ void Converter::convertFile(std::string filepath)
 		string sLine;
 		while (getline(infile, sLine))
 		{
-			//We only care about lines that aren't just an integer (meaning we want to ignore dialog number lines)
+			//Ignore dialog number lines
 			if (regex_match(sLine, rgxDialogNumber))
 				continue;
 
@@ -104,7 +118,7 @@ void Converter::convertFile(std::string filepath)
 			regex_match(sLine, match, rgxTimeFrame);
 			if (!match.empty()) {
 				if (_timeOffsetMs != 0) {
-					//Extract the times in milliseconds from the matched time frame line
+					//Extract the times in milliseconds from the time frame line
 					long msStartTime = timeStringToMs(match[1]);
 					long msEndTime = timeStringToMs(match[2]);
 
@@ -132,6 +146,8 @@ void Converter::convertFile(std::string filepath)
 
 		infile.close();
 		outfile.close();
+
+		print("Done!");
 	}
 	catch (exception &e) {
 		cerr << "An error occurred converting \"" << filepath << "\":" << endl << e.what() << endl;

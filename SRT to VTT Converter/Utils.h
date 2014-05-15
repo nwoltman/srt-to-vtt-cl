@@ -1,3 +1,12 @@
+/**
+ * @file Utils.h
+ * Header file for the Utils (utilities) class.
+ *
+ * @author Nathan Woltman
+ * @copyright 2014 Nathan Woltman
+ * @license MIT https://github.com/woollybogger/srt-to-vtt-cl/blob/master/LICENSE.txt
+ */
+
 #ifndef UTILS_H_
 #define UTILS_H_
 
@@ -7,6 +16,14 @@
 class Utils
 {
 public:
+	/**
+	 * Tells if the path is a directory.
+	 *
+	 * @param path The path string.
+	 * @returns TRUE if the path exists and is a directory; else FALSE.
+	 */
+	static bool isDir(const std::string& path);
+
 	/**
 	 * Strips characters from the end of a string.
 	 *
