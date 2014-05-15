@@ -6,6 +6,7 @@ A command line application that converts subtitle files from SubRib (.srt) forma
 ## Binaries
 
 * [Windows](https://raw.githubusercontent.com/woollybogger/srt-to-vtt-cl/master/bin/Windows/srt-vtt.exe "Download the 32-bit Windows binary file")
+* [Mac OS X](https://raw.githubusercontent.com/woollybogger/srt-to-vtt-cl/master/bin/Mac-OSX/srt-vtt "Download the 32-bit OS X binary file")
 * Linux - If you can get this to work on Linux (any distribution; I tried on Ubuntu), please submit a pull request
 
 ## Usage
