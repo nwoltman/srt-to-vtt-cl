@@ -34,6 +34,21 @@ bool Utils::isDir(const string& path)
 	return false;
 }
 
+bool Utils::pathExists(const string& path)
+{
+#if defined(_WIN32) || defined(WIN32)
+	DWORD ftype = GetFileAttributesA(path.c_str());
+	if (ftype != INVALID_FILE_ATTRIBUTES)
+		return true;
+#else
+	struct stat st;
+	if (stat(path.c_str(), &st) == 0 && (st.st_mode & S_IFDIR || st.st_mode & S_IFREG))
+		return true;
+#endif
+
+	return false;
+}
+
 string& Utils::rtrim(std::string& s, char c)
 {
 	while (s.length() && s.back() == c) {

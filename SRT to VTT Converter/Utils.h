@@ -17,12 +17,20 @@ class Utils
 {
 public:
 	/**
-	 * Tells if the path is a directory.
+	 * Determines if the path is a directory.
 	 *
 	 * @param path The path string.
-	 * @returns TRUE if the path exists and is a directory; else FALSE.
+	 * @returns TRUE if the path is a directory; else FALSE.
 	 */
 	static bool isDir(const std::string& path);
+
+	/**
+	 * Determines whether a path to a file system object such as a file or directory is valid.
+	 *
+	 * @param path The path string.
+	 * @returns TRUE if the path exists; else FALSE.
+	 */
+	static bool pathExists(const std::string& path);
 
 	/**
 	 * Strips characters from the end of a string.

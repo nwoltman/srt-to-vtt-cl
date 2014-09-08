@@ -2,7 +2,7 @@
  * @file main.cpp
  * Main file for the SRT to VTT Converter. Processes command line options.
  *
- * @version 1.0.0
+ * @version 1.0.1
  * @author Nathan Woltman
  * @copyright 2014 Nathan Woltman
  * @license MIT https://github.com/woollybogger/srt-to-vtt-cl/blob/master/LICENSE.txt
@@ -25,11 +25,11 @@ int main(int argc, char* argv[])
 		TCLAP::CmdLine cmd(string("`srt-vtt` converts SubRip subtitles to the WebVTT subtitle format.\n")
 				+ "If called without any arguments, all .srt files in the current directory will be converted and left within the current directory.\n"
 				+ "Written by Nathan Woltman and distributed under the MIT license.",
-			' ', "1.0.0");
+			' ', "1.0.1");
 
 		//Define arguements
 		TCLAP::UnlabeledValueArg<string> inputArg("input",
-			"File to convert or direcotry containing files to convert (to convert files in a directory and it's subdirectories, include the -r switch.",
+			"Path to a file to convert or directory containing files to convert (to convert files in a directory and it's subdirectories, include the -r switch).",
 			false, ".", "string");
 		cmd.add(inputArg);
 
@@ -45,7 +45,7 @@ int main(int argc, char* argv[])
 
 		TCLAP::SwitchArg recursiveArg("r", "recursive", string()
 			+ "If the input is a directory, this flag indicates its subdirectories will be searched recursively for .srt files to convert."
-			+ " This flag is ignored if the input is a file.");
+			+ " This flag is ignored if the input path is a file.");
 		cmd.add(recursiveArg);
 
 		TCLAP::SwitchArg quietArg("q", "quiet", "Prevents details about the conversion from being printed to the console.");
@@ -66,8 +66,11 @@ int main(int argc, char* argv[])
 		if (Utils::isDir(input)) {
 			converter.convertDirectory(input, recursive);
 		}
-		else {
+		else if (Utils::pathExists(input)) {
 			converter.convertFile(input);
+		}
+		else {
+			cout << "The input path does not exist!" << endl;
 		}
 	}
 	catch (TCLAP::ArgException &e) {
