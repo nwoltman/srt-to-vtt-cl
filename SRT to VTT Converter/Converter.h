@@ -26,15 +26,17 @@ public:
 	 *     Can be a full or relative path.
 	 * @param recursive Set this to TRUE to recursively search subdirectories for .srt files
 	 *     to convert. Defaults to FALSE.
+	 * @returns 1 if an error occurred; else 0.
 	 */
-	void convertDirectory(std::string& dirpath, bool recursive = false);
+	int convertDirectory(std::string& dirpath, bool recursive = false);
 
 	/**
 	 * Converts a single .srt file to a .vtt file.
 	 *
 	 * @param filepath The path to the file to convert. Can be a full or relative path.
+	 * @returns 1 if an error occurred; else 0.
 	 */
-	void convertFile(std::string filepath);
+	int convertFile(std::string filepath);
 
 private:
 	void skipBom(std::istream& in);                     // Skips the istream past a byte order mark (BOM)

@@ -20,6 +20,8 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
+	int retCode;
+
 	try {
 		// Initialze the tclap command line parser
 		TCLAP::CmdLine cmd(
@@ -91,16 +93,18 @@ int main(int argc, char* argv[])
 		// Convert
 		Converter converter(timeOffset, outputDir, quiet);
 		if (Utils::isDir(input)) {
-			converter.convertDirectory(input, recursive);
+			retCode = converter.convertDirectory(input, recursive);
 		} else if (Utils::pathExists(input)) {
-			converter.convertFile(input);
+			retCode = converter.convertFile(input);
 		} else {
-			cout << "The input path does not exist!" << endl;
+			cerr << "The input path does not exist!" << endl;
+			retCode = 1;
 		}
 	}
 	catch (TCLAP::ArgException &e) {
 		cerr << "error: " << e.error() << " for arg " << e.argId() << endl;
+		retCode = 1;
 	}
 
-	return 0;
+	return retCode;
 }

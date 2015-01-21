@@ -35,7 +35,7 @@ Converter::Converter(int timeOffsetMs, const std::string& outputDir, bool quiet)
 	Utils::rtrim(_outputDir, '\\');
 }
 
-void Converter::convertDirectory(std::string& dirpath, bool recursive)
+int Converter::convertDirectory(std::string& dirpath, bool recursive)
 {
 	// Strip trailing slashes from the directory's path
 	Utils::rtrim(dirpath, '/');
@@ -46,8 +46,10 @@ void Converter::convertDirectory(std::string& dirpath, bool recursive)
 	DIR *dir = opendir(dirpath.c_str());
 	if (dir == NULL) {
 		cerr << "Could not read directory \"" << dirpath << "\"" << endl;
-		return;
+		return 1;
 	}
+
+	int nRetCodes = 0;
 
 	// Loop through all items in the directory
 	for (;;)
@@ -63,7 +65,7 @@ void Converter::convertDirectory(std::string& dirpath, bool recursive)
 			case DT_REG:
 				// If the file is a .srt file, convert it
 				if (ext == "srt" || ext == "SRT") {
-					convertFile(dirpath + DIR_SEPARATOR + item);
+					nRetCodes += convertFile(dirpath + DIR_SEPARATOR + item);
 				}
 				break;
 
@@ -71,7 +73,7 @@ void Converter::convertDirectory(std::string& dirpath, bool recursive)
 				// If recursive, search subdirectories
 				if (recursive && item != "." && item != "..") {
 					string subdir = dirpath + DIR_SEPARATOR + item;
-					convertDirectory(subdir, recursive);
+					nRetCodes += convertDirectory(subdir, recursive);
 				}
 				break;
 
@@ -81,9 +83,11 @@ void Converter::convertDirectory(std::string& dirpath, bool recursive)
 	}
 
 	closedir(dir);
+
+	return nRetCodes ? 1 : 0;
 }
 
-void Converter::convertFile(std::string filepath)
+int Converter::convertFile(std::string filepath)
 {
 	// Determine path of the output file
 	string outpath = regex_replace(filepath, regex("\\.srt$", regex_constants::icase), string("")) + ".vtt";
@@ -155,7 +159,10 @@ void Converter::convertFile(std::string filepath)
 	}
 	catch (exception &e) {
 		cerr << "An error occurred converting \"" << filepath << "\":" << endl << e.what() << endl;
+		return 1;
 	}
+
+	return 0;
 }
 
 void Converter::skipBom(istream & in)
