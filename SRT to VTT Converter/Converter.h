@@ -41,8 +41,8 @@ public:
 private:
 	void skipBom(std::istream& in);                     // Skips the istream past a byte order mark (BOM)
 	std::string htmlEncodeUtf8(const std::string& str); // HTML-encodes UTF-8 characters
-	long timeStringToMs(const std::string& time);       // Converts a SubRip time string to milliseconds
-	std::string msToVttTimeString(long ms);             // Converts milliseconds to a WebVTT-formatted time string
+	int timeStringToMs(const std::string& time);        // Converts a SubRip time string to milliseconds
+	std::string msToVttTimeString(int ms);              // Converts milliseconds to a WebVTT-formatted time string
 	void print(std::string info);                       // Prints information to the console
 
 	int _timeOffsetMs;      // The timing offset in milliseconds

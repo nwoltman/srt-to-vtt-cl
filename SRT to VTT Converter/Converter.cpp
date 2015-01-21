@@ -129,8 +129,8 @@ int Converter::convertFile(std::string filepath)
 			if (!match.empty()) {
 				if (_timeOffsetMs != 0) {
 					// Extract the times in milliseconds from the time frame line
-					long msStartTime = timeStringToMs(match[1]);
-					long msEndTime = timeStringToMs(match[2]);
+					int msStartTime = timeStringToMs(match[1]);
+					int msEndTime = timeStringToMs(match[2]);
 
 					// Modify the time with the offset, making sure the time gets set to 0 if it is going to be negative
 					msStartTime += _timeOffsetMs;
@@ -198,7 +198,7 @@ string Converter::htmlEncodeUtf8(const std::string& str)
 	return wstring_convert<codecvt_utf8<wchar_t>, wchar_t>().to_bytes(wstr);
 }
 
-long Converter::timeStringToMs(const std::string& time)
+int Converter::timeStringToMs(const std::string& time)
 {
 	// Time format: hh:mm:ss,### (where # = ms)
 	int hours = stoi(time.substr(0, 2));
@@ -209,7 +209,7 @@ long Converter::timeStringToMs(const std::string& time)
 	return hours * 3600000 + minutes * 60000 + seconds * 1000 + milliseconds;
 }
 
-std::string Converter::msToVttTimeString(long ms)
+std::string Converter::msToVttTimeString(int ms)
 {
 	int hours = ms / 3600000;
 	ms -= hours * 3600000;
