@@ -3,7 +3,7 @@
  * Header file for the Utils (utilities) class.
  *
  * @author Nathan Woltman
- * @copyright 2014 Nathan Woltman
+ * @copyright 2014-2015 Nathan Woltman
  * @license MIT https://github.com/woollybogger/srt-to-vtt-cl/blob/master/LICENSE.txt
  */
 
@@ -25,7 +25,7 @@ public:
 	static bool isDir(const std::string& path);
 
 	/**
-	 * Determines whether a path to a file system object such as a file or directory is valid.
+	 * Determines if a path to a file system object such as a file or directory is valid.
 	 *
 	 * @param path The path string.
 	 * @returns TRUE if the path exists; else FALSE.
@@ -36,7 +36,8 @@ public:
 	 * Strips characters from the end of a string.
 	 *
 	 * @param s The input string.
-	 * @param c The character to be removed from the end of the string (removed continuously until the string no longer ends with this character).
+	 * @param c The character to be removed from the end of the string
+	 *     (removed continuously until the string no longer ends with this character).
 	 * @returns A reference to the input string.
 	 */
 	static std::string& rtrim(std::string& s, char c);

@@ -3,7 +3,7 @@
  * Implementation for the Converter class.
  *
  * @author Nathan Woltman
- * @copyright 2014 Nathan Woltman
+ * @copyright 2014-2015 Nathan Woltman
  * @license MIT https://github.com/woollybogger/srt-to-vtt-cl/blob/master/LICENSE.txt
  */
 
@@ -23,49 +23,52 @@
 
 using namespace std;
 
+
 Converter::Converter(int timeOffsetMs, const std::string& outputDir, bool quiet)
 {
 	_timeOffsetMs = timeOffsetMs;
 	_outputDir = outputDir;
 	_quiet = quiet;
 
-	//Strip trailing slashes from the output directory's path
+	// Strip trailing slashes from the output directory's path
 	Utils::rtrim(_outputDir, '/');
 	Utils::rtrim(_outputDir, '\\');
 }
 
 void Converter::convertDirectory(std::string& dirpath, bool recursive)
 {
-	//Strip trailing slashes from the directory's path
+	// Strip trailing slashes from the directory's path
 	Utils::rtrim(dirpath, '/');
 	Utils::rtrim(dirpath, '\\');
 
 	print("Searching for files to convert in: " + dirpath);
 
-	DIR *dir;
-	struct dirent *ent;
-
-	if ((dir = opendir(dirpath.c_str())) == NULL) {
+	DIR *dir = opendir(dirpath.c_str());
+	if (dir == NULL) {
 		cerr << "Could not read directory \"" << dirpath << "\"" << endl;
 		return;
 	}
 
-	//Loop through all items in the directory
-	while ((ent = readdir(dir)) != NULL)
+	// Loop through all items in the directory
+	for (;;)
 	{
+		struct dirent *ent = readdir(dir);
+
+		if (ent == NULL) break;
+
 		string item = ent->d_name;
 		string ext = item.substr(item.find_last_of(".") + 1);
 		switch (ent->d_type) {
 			case DT_LNK:
 			case DT_REG:
-				//If the file is a .srt file, convert it
+				// If the file is a .srt file, convert it
 				if (ext == "srt" || ext == "SRT") {
 					convertFile(dirpath + DIR_SEPARATOR + item);
 				}
 				break;
 
 			case DT_DIR:
-				//If recursive, search subdirectories
+				// If recursive, search subdirectories
 				if (recursive && item != "." && item != "..") {
 					string subdir = dirpath + DIR_SEPARATOR + item;
 					convertDirectory(subdir, recursive);
@@ -73,19 +76,19 @@ void Converter::convertDirectory(std::string& dirpath, bool recursive)
 				break;
 
 			default:
-				/* Ignore device entries */
-				/*NOP*/;
+				/* NOOP */;
 		}
 	}
+
 	closedir(dir);
 }
 
 void Converter::convertFile(std::string filepath)
 {
-	//Determine path of the output file
+	// Determine path of the output file
 	string outpath = regex_replace(filepath, regex("\\.srt$", regex_constants::icase), string("")) + ".vtt";
 
-	if (!_outputDir.empty()) { //The user specified an output directory
+	if (!_outputDir.empty()) { // The user specified an output directory
 		if (!Utils::isDir(_outputDir)) {
 			print("Creating directory: " + _outputDir);
 			system(string("mkdir \"" + _outputDir + "\"").c_str());
@@ -100,17 +103,20 @@ void Converter::convertFile(std::string filepath)
 		regex rgxTimeFrame("(\\d\\d:\\d\\d:\\d\\d,\\d{3}) --> (\\d\\d:\\d\\d:\\d\\d,\\d{3})");
 
 		ifstream infile(filepath);
-		skipBom(infile); //In case file starts with BOM
+		skipBom(infile); // In case file starts with BOM
 
 		ofstream outfile(outpath);
 
-		//Write mandatory starting for the WebVTT file
+		// Write mandatory starting for the WebVTT file
 		outfile << "WEBVTT" << endl << endl;
 
-		string sLine;
-		while (getline(infile, sLine))
+		for (;;)
 		{
-			//Ignore dialog number lines
+			string sLine;
+
+			if (!getline(infile, sLine)) break;
+
+			// Ignore dialog number lines
 			if (regex_match(sLine, rgxDialogNumber))
 				continue;
 
@@ -118,30 +124,28 @@ void Converter::convertFile(std::string filepath)
 			regex_match(sLine, match, rgxTimeFrame);
 			if (!match.empty()) {
 				if (_timeOffsetMs != 0) {
-					//Extract the times in milliseconds from the time frame line
+					// Extract the times in milliseconds from the time frame line
 					long msStartTime = timeStringToMs(match[1]);
 					long msEndTime = timeStringToMs(match[2]);
 
-					//Modify the time with the offset, making sure the time gets set to 0 if it is going to be negative
+					// Modify the time with the offset, making sure the time gets set to 0 if it is going to be negative
 					msStartTime += _timeOffsetMs;
 					msEndTime += _timeOffsetMs;
 					if (msStartTime < 0) msStartTime = 0;
 					if (msEndTime < 0) msEndTime = 0;
 
-					//Construct the new time frame line
+					// Construct the new time frame line
 					sLine = msToVttTimeString(msStartTime) + " --> " + msToVttTimeString(msEndTime);
-				}
-				else {
-					//Simply replace the commas in the time with a period
+				} else {
+					// Simply replace the commas in the time with a period
 					sLine = Utils::str_replace(sLine, ",", ".");
 				}
-			}
-			else {
-				//HTMl encode the text so it is displayed properly by browsers
+			} else {
+				// HTML-encode the text so it is displayed properly by browsers
 				sLine = htmlEncodeUtf8(sLine);
 			}
 
-			outfile << sLine << endl; //Output the line to the new file
+			outfile << sLine << endl; // Output the line to the new file
 		}
 
 		infile.close();
@@ -166,14 +170,14 @@ void Converter::skipBom(istream & in)
 
 string Converter::htmlEncodeUtf8(const std::string& str)
 {
-	//Convert the string to a wstring
+	// Convert the string to a wstring
 	wstring wstr = wstring_convert<codecvt_utf8<wchar_t>>().from_bytes(str);
 	
-	//The string doesn't have any UTF-8 characters if both strings have the same length
+	// The string doesn't have any UTF-8 characters if both strings have the same length
 	if (str.length() == wstr.length())
 		return str;
 
-	//HTML-encode the UTF-8 characters in the ASCII range
+	// HTML-encode the UTF-8 characters in the ASCII range
 	for (size_t i = 0; i < wstr.length(); i++)
 	{
 		if (wstr[i] >= 160 && wstr[i] <= 255) {
@@ -183,31 +187,31 @@ string Converter::htmlEncodeUtf8(const std::string& str)
 		}
 	}
 
-	//Convert back to string and return
+	// Convert back to string and return
 	return wstring_convert<codecvt_utf8<wchar_t>, wchar_t>().to_bytes(wstr);
 }
 
 long Converter::timeStringToMs(const std::string& time)
 {
-	//Time format: hh:mm:ss,### (where # = ms)
+	// Time format: hh:mm:ss,### (where # = ms)
 	int hours = stoi(time.substr(0, 2));
 	int minutes = stoi(time.substr(3, 2));
 	int seconds = stoi(time.substr(6, 2));
 	int milliseconds = stoi(time.substr(9));
 
-	return hours*3600000 + minutes*60000 + seconds*1000 + milliseconds;
+	return hours * 3600000 + minutes * 60000 + seconds * 1000 + milliseconds;
 }
 
 std::string Converter::msToVttTimeString(long ms)
 {
-	int hours = ms/3600000;
-	ms -= hours*3600000;
+	int hours = ms / 3600000;
+	ms -= hours * 3600000;
 
-	int minutes = ms/60000;
-	ms -= minutes*60000;
+	int minutes = ms / 60000;
+	ms -= minutes * 60000;
 
-	int seconds = ms/1000;
-	ms -= seconds*1000;
+	int seconds = ms / 1000;
+	ms -= seconds * 1000;
 
 	return (hours < 10 ? "0" : "") + to_string(hours)
 		+ ":" + (minutes < 10 ? "0" : "") + to_string(minutes)
@@ -217,7 +221,7 @@ std::string Converter::msToVttTimeString(long ms)
 
 void Converter::print(string info)
 {
-	if (!_quiet) {
-		cout << info << endl;
-	}
+	if (_quiet) return;
+
+	cout << info << endl;
 }

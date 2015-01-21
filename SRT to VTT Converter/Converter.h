@@ -3,7 +3,7 @@
  * Header file for the Convert class.
  *
  * @author Nathan Woltman
- * @copyright 2014 Nathan Woltman
+ * @copyright 2014-2015 Nathan Woltman
  * @license MIT https://github.com/woollybogger/srt-to-vtt-cl/blob/master/LICENSE.txt
  */
 
@@ -22,8 +22,10 @@ public:
 	/**
 	 * Converts all files in a directory, optionally converting files in subdirectories.
 	 *
-	 * @param dirpath The path to the directory in which to search for .srt files to convert. Can be a full or relative path.
-	 * @param recursive Set this to true to recursively search subdirectories for .srt files to convert. Defaults to false.
+	 * @param dirpath The path to the directory in which to search for .srt files to convert.
+	 *     Can be a full or relative path.
+	 * @param recursive Set this to TRUE to recursively search subdirectories for .srt files
+	 *     to convert. Defaults to FALSE.
 	 */
 	void convertDirectory(std::string& dirpath, bool recursive = false);
 
@@ -36,7 +38,7 @@ public:
 
 private:
 	void skipBom(std::istream& in);                     // Skips the istream past a byte order mark (BOM)
-	std::string htmlEncodeUtf8(const std::string& str); // HTML-encodes UTF-8 characters so they display properly in browsers
+	std::string htmlEncodeUtf8(const std::string& str); // HTML-encodes UTF-8 characters
 	long timeStringToMs(const std::string& time);       // Converts a SubRip time string to milliseconds
 	std::string msToVttTimeString(long ms);             // Converts milliseconds to a WebVTT-formatted time string
 	void print(std::string info);                       // Prints information to the console
