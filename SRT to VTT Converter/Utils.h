@@ -44,13 +44,13 @@ public:
 	/**
 	 * Strips characters from the end of a string.
 	 *
-	 * @param s The input string.
+	 * @param s The string to be modified.
 	 * @param c The character to be removed from the end of the string
 	 *     (removed continuously until the string no longer ends with this character).
 	 * @returns A reference to the input string.
 	 */
-	static std::string& rtrim(std::string& s, char c);
-	static std::wstring& rtrim(std::wstring& s, wchar_t c);
+	static void rtrim(std::string& s, const char c);
+	static void rtrim(std::wstring& s, const wchar_t c);
 
 	/**
 	 * Replace all occurrences of the search string with the replacement string.

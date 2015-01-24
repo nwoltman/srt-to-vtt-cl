@@ -78,22 +78,18 @@ bool Utils::pathExists(const string& path)
 	return false;
 }
 
-string& Utils::rtrim(string& s, char c)
+void Utils::rtrim(string& s, const char c)
 {
-	while (s.length() && s.back() == c) {
+	while (!s.empty() && s.back() == c) {
 		s.pop_back();
 	}
-
-	return s;
 }
 
-wstring& Utils::rtrim(wstring& s, wchar_t c)
+void Utils::rtrim(wstring& s, const wchar_t c)
 {
-	while (s.length() && s.back() == c) {
+	while (!s.empty() && s.back() == c) {
 		s.pop_back();
 	}
-
-	return s;
 }
 
 wstring& Utils::wstr_replace(wstring& subject, wstring search, wstring replace)
