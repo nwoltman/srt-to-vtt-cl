@@ -35,9 +35,9 @@
 
 using namespace AutoIt;
 
-static const unsigned char TextEncodingDetect_UTF16_BOM_LE[] = { unsigned char(0xFF), unsigned char(0xFE) };
-static const unsigned char TextEncodingDetect_UTF16_BOM_BE[] = { unsigned char(0xFE), unsigned char(0xFF) };
-static const unsigned char TextEncodingDetect_UTF8_BOM[] = { unsigned char(0xEF), unsigned char(0xBB), unsigned char(0xBF) };
+static const unsigned char TextEncodingDetect_UTF16_BOM_LE[] = { (unsigned char)0xFF, (unsigned char)0xFE };
+static const unsigned char TextEncodingDetect_UTF16_BOM_BE[] = { (unsigned char)0xFE, (unsigned char)0xFF };
+static const unsigned char TextEncodingDetect_UTF8_BOM[] = { (unsigned char)0xEF, (unsigned char)0xBB, (unsigned char)0xBF };
 
 const unsigned char* TextEncodingDetect::utf16_bom_le_ = TextEncodingDetect_UTF16_BOM_LE;
 const unsigned char* TextEncodingDetect::utf16_bom_be_ = TextEncodingDetect_UTF16_BOM_BE;
