@@ -10,12 +10,21 @@
 #ifndef UTILS_H_
 #define UTILS_H_
 
+#include <fstream>
 #include <string>
 
 
 class Utils
 {
 public:
+	/**
+	 * Takes in a wistream and the path to the file the stream was created from
+	 * and formats the stream based on the file's encoding.
+	 *
+	 * @param stream A wifstream that has not bead read yet.
+	 */
+	static void formatInStream(std::wifstream& stream, const std::string& path);
+
 	/**
 	 * Determines if the path is a directory.
 	 *
@@ -50,7 +59,7 @@ public:
 	 * @param replace The replacement string.
 	 * @returns A reference to the input string (subject).
 	 */
-	static std::string& str_replace(std::string& subject, std::string search, std::string replace);
+	static std::wstring& wstr_replace(std::wstring& subject, std::wstring search, std::wstring replace);
 };
 
 #endif

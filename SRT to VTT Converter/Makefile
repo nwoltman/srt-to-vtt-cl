@@ -1,6 +1,6 @@
 CXX = g++
 CXXFLAGS = -g -std=c++11 -O2 -MMD -I ./include
-OBJECTS = Utils.o Converter.o main.o
+OBJECTS = text_encoding_detect.o Utils.o Converter.o main.o
 DEPENDS = $(OBJECTS:.o=.d)
 EXEC = ../bin/Mac-OSX/srt-vtt
 

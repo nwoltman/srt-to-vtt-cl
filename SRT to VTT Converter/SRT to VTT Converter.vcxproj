@@ -92,10 +92,12 @@
   <ItemGroup>
     <ClCompile Include="Converter.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="text_encoding_detect.cpp" />
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Converter.h" />
+    <ClInclude Include="text_encoding_detect.h" />
     <ClInclude Include="Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

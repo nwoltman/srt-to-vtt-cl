@@ -24,7 +24,7 @@
 using namespace std;
 
 
-Converter::Converter(int timeOffsetMs, const std::string& outputDir, bool quiet)
+Converter::Converter(int timeOffsetMs, const string& outputDir, bool quiet)
 {
 	_timeOffsetMs = timeOffsetMs;
 	_outputDir = outputDir;
@@ -35,7 +35,7 @@ Converter::Converter(int timeOffsetMs, const std::string& outputDir, bool quiet)
 	Utils::rtrim(_outputDir, '\\');
 }
 
-int Converter::convertDirectory(std::string& dirpath, bool recursive)
+int Converter::convertDirectory(string& dirpath, bool recursive)
 {
 	// Strip trailing slashes from the directory's path
 	Utils::rtrim(dirpath, '/');
@@ -78,7 +78,7 @@ int Converter::convertDirectory(std::string& dirpath, bool recursive)
 				break;
 
 			default:
-				/* NOOP */;
+				break;
 		}
 	}
 
@@ -87,7 +87,7 @@ int Converter::convertDirectory(std::string& dirpath, bool recursive)
 	return nRetCodes ? 1 : 0;
 }
 
-int Converter::convertFile(std::string filepath)
+int Converter::convertFile(string filepath)
 {
 	// Determine path of the output file
 	string outpath = regex_replace(filepath, regex("\\.srt$", regex_constants::icase), string("")) + ".vtt";
@@ -103,20 +103,21 @@ int Converter::convertFile(std::string filepath)
 	print("Converting file: " + filepath + " => " + outpath);
 	
 	try {
-		regex rgxDialogNumber("\\d+");
-		regex rgxTimeFrame("(\\d\\d:\\d\\d:\\d\\d,\\d{3}) --> (\\d\\d:\\d\\d:\\d\\d,\\d{3})");
+		wregex rgxDialogNumber(L"\\d+");
+		wregex rgxTimeFrame(L"(\\d\\d:\\d\\d:\\d\\d,\\d{3}) --> (\\d\\d:\\d\\d:\\d\\d,\\d{3})");
 
-		ifstream infile(filepath);
-		skipBom(infile); // In case file starts with BOM
+		wifstream infile(filepath);
+		Utils::formatInStream(infile, filepath);
 
-		ofstream outfile(outpath);
+		wofstream outfile(outpath);
+		outfile.imbue(locale(outfile.getloc(), new codecvt_utf8<wchar_t>));
 
 		// Write mandatory starting for the WebVTT file
 		outfile << "WEBVTT" << endl << endl;
 
 		for (;;)
 		{
-			string sLine;
+			wstring sLine;
 
 			if (!getline(infile, sLine)) break;
 
@@ -124,7 +125,7 @@ int Converter::convertFile(std::string filepath)
 			if (regex_match(sLine, rgxDialogNumber))
 				continue;
 
-			smatch match;
+			wsmatch match;
 			regex_match(sLine, match, rgxTimeFrame);
 			if (!match.empty()) {
 				if (_timeOffsetMs != 0) {
@@ -139,66 +140,42 @@ int Converter::convertFile(std::string filepath)
 					if (msEndTime < 0) msEndTime = 0;
 
 					// Construct the new time frame line
-					sLine = msToVttTimeString(msStartTime) + " --> " + msToVttTimeString(msEndTime);
+					sLine = msToVttTimeString(msStartTime) + L" --> " + msToVttTimeString(msEndTime);
 				} else {
 					// Simply replace the commas in the time with a period
-					sLine = Utils::str_replace(sLine, ",", ".");
+					sLine = Utils::wstr_replace(sLine, L",", L".");
 				}
 			} else {
 				// HTML-encode the text so it is displayed properly by browsers
-				sLine = htmlEncodeUtf8(sLine);
+				htmlEncodeUtf8(sLine);
 			}
 
 			outfile << sLine << endl; // Output the line to the new file
 		}
-
-		infile.close();
-		outfile.close();
-
-		print("Done!");
 	}
 	catch (exception &e) {
 		cerr << "An error occurred converting \"" << filepath << "\":" << endl << e.what() << endl;
 		return 1;
 	}
 
+	print("Done!");
 	return 0;
 }
 
-void Converter::skipBom(istream & in)
+void Converter::htmlEncodeUtf8(wstring& str)
 {
-	const char bom[3] = { (char)0xEF, (char)0xBB, (char)0xBF };
-	char test[3] = { 0 };
-	in.read(test, 3);
-	if (*test != *bom) {
-		in.seekg(0);
-	}
-}
-
-string Converter::htmlEncodeUtf8(const std::string& str)
-{
-	// Convert the string to a wstring
-	wstring wstr = wstring_convert<codecvt_utf8<wchar_t>>().from_bytes(str);
-	
-	// The string doesn't have any UTF-8 characters if both strings have the same length
-	if (str.length() == wstr.length())
-		return str;
-
-	// HTML-encode the UTF-8 characters in the ASCII range
-	for (size_t i = 0; i < wstr.length(); i++)
+	// HTML-encode certain UTF-8 characters in the ANSI range
+	for (size_t i = 0; i < str.length(); i++)
 	{
-		if (wstr[i] >= 160 && wstr[i] <= 255) {
-			wstring replacement = L"&#" + to_wstring((int)wstr[i]) + L";";
-			wstr.replace(i, 1, replacement);
+		if (160 <= str[i] && str[i] <= 255) {
+			wstring replacement = L"&#" + to_wstring((unsigned int)str[i]) + L";";
+			str.replace(i, 1, replacement);
 			i += replacement.length() - 1;
 		}
 	}
-
-	// Convert back to string and return
-	return wstring_convert<codecvt_utf8<wchar_t>, wchar_t>().to_bytes(wstr);
 }
 
-int Converter::timeStringToMs(const std::string& time)
+int Converter::timeStringToMs(const wstring& time)
 {
 	// Time format: hh:mm:ss,### (where # = ms)
 	int hours = stoi(time.substr(0, 2));
@@ -209,7 +186,7 @@ int Converter::timeStringToMs(const std::string& time)
 	return hours * 3600000 + minutes * 60000 + seconds * 1000 + milliseconds;
 }
 
-std::string Converter::msToVttTimeString(int ms)
+wstring Converter::msToVttTimeString(int ms)
 {
 	int hours = ms / 3600000;
 	ms -= hours * 3600000;
@@ -220,10 +197,10 @@ std::string Converter::msToVttTimeString(int ms)
 	int seconds = ms / 1000;
 	ms -= seconds * 1000;
 
-	return (hours < 10 ? "0" : "") + to_string(hours)
-		+ ":" + (minutes < 10 ? "0" : "") + to_string(minutes)
-		+ ":" + (seconds < 10 ? "0" : "") + to_string(seconds)
-		+ "." + (ms < 100 ? "0" : "") + (ms < 10 ? "0" : "") + to_string(ms);
+	return (hours < 10 ? L"0" : L"") + to_wstring(hours)
+		+ L":" + (minutes < 10 ? L"0" : L"") + to_wstring(minutes)
+		+ L":" + (seconds < 10 ? L"0" : L"") + to_wstring(seconds)
+		+ L"." + (ms < 100 ? L"0" : L"") + (ms < 10 ? L"0" : L"") + to_wstring(ms);
 }
 
 void Converter::print(string info)
