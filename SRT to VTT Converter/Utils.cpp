@@ -87,6 +87,15 @@ string& Utils::rtrim(string& s, char c)
 	return s;
 }
 
+wstring& Utils::rtrim(wstring& s, wchar_t c)
+{
+	while (s.length() && s.back() == c) {
+		s.pop_back();
+	}
+
+	return s;
+}
+
 wstring& Utils::wstr_replace(wstring& subject, wstring search, wstring replace)
 {
 	for (;;)

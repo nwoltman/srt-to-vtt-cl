@@ -50,6 +50,7 @@ public:
 	 * @returns A reference to the input string.
 	 */
 	static std::string& rtrim(std::string& s, char c);
+	static std::wstring& rtrim(std::wstring& s, wchar_t c);
 
 	/**
 	 * Replace all occurrences of the search string with the replacement string.

@@ -121,6 +121,8 @@ int Converter::convertFile(string filepath)
 
 			if (!getline(infile, sLine)) break;
 
+			Utils::rtrim(sLine, '\r'); // Trim a possibly trailing CR character
+
 			// Ignore dialog number lines
 			if (regex_match(sLine, rgxDialogNumber))
 				continue;
