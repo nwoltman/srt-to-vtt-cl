@@ -31,8 +31,7 @@ void Utils::formatInStream(wifstream& stream, const string& path)
 	fin.close();
 
 	AutoIt::TextEncodingDetect encodingDetector;
-	switch (encodingDetector.DetectEncoding(buffer, bytes))
-	{
+	switch (encodingDetector.DetectEncoding(buffer, bytes)) {
 		// UTF-16
 		case AutoIt::TextEncodingDetect::UTF16_LE_BOM:
 		case AutoIt::TextEncodingDetect::UTF16_LE_NOBOM:
@@ -80,14 +79,16 @@ bool Utils::pathExists(const string& path)
 
 void Utils::rtrim(string& s, const char c)
 {
-	while (!s.empty() && s.back() == c) {
+	while (!s.empty() && s.back() == c)
+	{
 		s.pop_back();
 	}
 }
 
 void Utils::rtrim(wstring& s, const wchar_t c)
 {
-	while (!s.empty() && s.back() == c) {
+	while (!s.empty() && s.back() == c)
+	{
 		s.pop_back();
 	}
 }

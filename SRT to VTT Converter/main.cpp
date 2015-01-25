@@ -33,7 +33,7 @@ int main(int argc, char* argv[])
 			"1.0.1"
 		);
 
-		// Define arguements
+		// Define arguments
 		TCLAP::UnlabeledValueArg<string> inputArg(
 			"input",
 			"Path to a file to convert or directory containing files to convert "
