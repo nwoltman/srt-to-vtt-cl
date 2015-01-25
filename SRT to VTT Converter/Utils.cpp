@@ -21,12 +21,12 @@
 using namespace std;
 
 
-void Utils::formatInStream(wifstream& stream, const string& path)
+void Utils::openFile(const string& filepath, wifstream& stream)
 {
 	// Read in 2 kb of the file
 	const size_t bytes = 2048;
 	unsigned char buffer[bytes];
-	ifstream fin(path);
+	ifstream fin(filepath);
 	fin.read((char*)buffer, bytes);
 	fin.close();
 
@@ -37,11 +37,13 @@ void Utils::formatInStream(wifstream& stream, const string& path)
 		case AutoIt::TextEncodingDetect::UTF16_LE_NOBOM:
 		case AutoIt::TextEncodingDetect::UTF16_BE_BOM:
 		case AutoIt::TextEncodingDetect::UTF16_BE_NOBOM:
+			stream.open(filepath, ios::binary);
 			stream.imbue(locale(fin.getloc(), new codecvt_utf16<wchar_t, 0x10ffff, consume_header>));
 			break;
 
 		// ASCII, ANSI, UTF-8, none (treat as UTF-8)
 		default:
+			stream.open(filepath);
 			stream.imbue(locale(fin.getloc(), new codecvt_utf8<wchar_t, 0x10ffff, consume_header>));
 			break;
 	}

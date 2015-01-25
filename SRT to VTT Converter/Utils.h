@@ -18,12 +18,12 @@ class Utils
 {
 public:
 	/**
-	 * Takes in a wistream and the path to the file the stream was created from
-	 * and formats the stream based on the file's encoding.
+	 * Opens a file into a stream and formats the stream based on the file's encoding.
 	 *
-	 * @param stream A wifstream that has not bead read yet.
+	 * @param filepath The path to a file.
+	 * @param stream A std::wifstream that has not yet been opened.
 	 */
-	static void formatInStream(std::wifstream& stream, const std::string& path);
+	static void openFile(const std::string& filepath, std::wifstream& stream);
 
 	/**
 	 * Determines if the path is a directory.

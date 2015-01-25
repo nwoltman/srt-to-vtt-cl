@@ -106,10 +106,16 @@ int Converter::convertFile(string filepath)
 		wregex rgxDialogNumber(L"\\d+");
 		wregex rgxTimeFrame(L"(\\d\\d:\\d\\d:\\d\\d,\\d{3}) --> (\\d\\d:\\d\\d:\\d\\d,\\d{3})");
 
-		wifstream infile(filepath);
-		Utils::formatInStream(infile, filepath);
-
+		wifstream infile;
+		Utils::openFile(filepath, infile);
+		if (!infile.is_open()) {
+			throw exception("Could not open .srt file");
+		}
+		
 		wofstream outfile(outpath);
+		if (!outfile.is_open()) {
+			throw exception("Could not open .vtt file");
+		}
 		outfile.imbue(locale(outfile.getloc(), new codecvt_utf8<wchar_t>));
 
 		// Write mandatory starting for the WebVTT file
