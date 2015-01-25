@@ -81,9 +81,10 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <Command>if ("$(Configuration)" == "Release") {
+      <Command>if "$(Configuration)" == "Release" (
+    echo "Copying release binary to /bin/Windows"
     copy "$(TargetPath)" "$(SolutionDir)bin\Windows\srt-vtt.exe"
-}</Command>
+)</Command>
     </PostBuildEvent>
     <PostBuildEvent>
       <Message>Copies the executable to the Windows binary folder.</Message>
