@@ -109,12 +109,12 @@ int Converter::convertFile(string filepath)
 		wifstream infile;
 		Utils::openFile(filepath, infile);
 		if (!infile.is_open()) {
-			throw exception("Could not open .srt file");
+			throw ios_base::failure("Could not open .srt file");
 		}
 		
 		wofstream outfile(outpath);
 		if (!outfile.is_open()) {
-			throw exception("Could not open .vtt file");
+			throw ios_base::failure("Could not open .vtt file");
 		}
 		outfile.imbue(locale(outfile.getloc(), new codecvt_utf8<wchar_t>));
 

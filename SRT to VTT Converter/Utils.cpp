@@ -42,7 +42,7 @@ void Utils::openFile(const string& filepath, wifstream& stream)
 			stream.imbue(locale(fin.getloc(), new codecvt_utf16<wchar_t, 0x10ffff, consume_header>));
 			break;
 		#else
-			throw exception("Converting UTF-16 encoded files is not supported on your platform.");
+			throw runtime_error("Converting UTF-16 encoded files is not supported on your platform.");
 		#endif
 
 		// ASCII, ANSI, UTF-8, none (treat as UTF-8)
