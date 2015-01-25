@@ -100,7 +100,7 @@ int Converter::convertFile(string filepath)
 		outpath = _outputDir + DIR_SEPARATOR + outpath.substr(outpath.find_last_of(DIR_SEPARATOR) + 1);
 	}
 
-	print("Converting file: " + filepath + " => " + outpath);
+	print("Converting file: " + filepath + " => " + outpath + " ...", false);
 	
 	try {
 		wregex rgxDialogNumber(L"\\d+");
@@ -109,12 +109,12 @@ int Converter::convertFile(string filepath)
 		wifstream infile;
 		Utils::openFile(filepath, infile);
 		if (!infile.is_open()) {
-			throw ios_base::failure("Could not open .srt file");
+			throw ios_base::failure("Could not open .srt file.");
 		}
 		
 		wofstream outfile(outpath);
 		if (!outfile.is_open()) {
-			throw ios_base::failure("Could not open .vtt file");
+			throw ios_base::failure("Could not open .vtt file.");
 		}
 		outfile.imbue(locale(outfile.getloc(), new codecvt_utf8<wchar_t>));
 
@@ -162,11 +162,15 @@ int Converter::convertFile(string filepath)
 		}
 	}
 	catch (exception &e) {
-		cerr << "An error occurred converting \"" << filepath << "\":" << endl << e.what() << endl;
+		if (_quiet)
+			cerr << "ERROR converting file \"" << filepath << "\": " << e.what() << endl;
+		else
+			cerr << "ERROR: " << e.what() << endl;
+
 		return 1;
 	}
 
-	print("Done!");
+	print("done!");
 	return 0;
 }
 
@@ -211,9 +215,10 @@ wstring Converter::msToVttTimeString(int ms)
 		+ L"." + (ms < 100 ? L"0" : L"") + (ms < 10 ? L"0" : L"") + to_wstring(ms);
 }
 
-void Converter::print(string info)
+void Converter::print(string info, bool eol)
 {
 	if (_quiet) return;
 
-	cout << info << endl;
+	cout << info;
+	if (eol) cout << endl;
 }

@@ -39,11 +39,11 @@ public:
 	int convertFile(std::string filepath);
 
 private:
-	void skipBom(std::wistream& in);              // Skips the istream past a byte order mark (BOM)
-	void htmlEncodeUtf8(std::wstring& str);       // HTML-encodes UTF-8 characters (modifies the input string)
-	int timeStringToMs(const std::wstring& time); // Converts a SubRip time string to milliseconds
-	std::wstring msToVttTimeString(int ms);       // Converts milliseconds to a WebVTT-formatted time string
-	void print(std::string info);                 // Prints information to the console
+	void skipBom(std::wistream& in);               // Skips the istream past a byte order mark (BOM)
+	void htmlEncodeUtf8(std::wstring& str);        // HTML-encodes UTF-8 characters (modifies the input string)
+	int timeStringToMs(const std::wstring& time);  // Converts a SubRip time string to milliseconds
+	std::wstring msToVttTimeString(int ms);        // Converts milliseconds to a WebVTT-formatted time string
+	void print(std::string info, bool eol = true); // Prints information to the console
 
 	int _timeOffsetMs;      // The timing offset in milliseconds
 	std::string _outputDir; // The directory in which the converted .vtt files will be saved.
