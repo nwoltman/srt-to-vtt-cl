@@ -133,15 +133,16 @@ int Converter::convertFile(string filepath)
 			if (regex_match(sLine, rgxDialogNumber))
 				continue;
 
-			wsmatch match;
-			regex_match(sLine, match, rgxTimeFrame);
-			if (!match.empty()) {
+			wsmatch matchTimeFrame;
+			regex_match(sLine, matchTimeFrame, rgxTimeFrame);
+			if (!matchTimeFrame.empty()) {
 				if (_timeOffsetMs != 0) {
 					// Extract the times in milliseconds from the time frame line
-					int msStartTime = timeStringToMs(match[1]);
-					int msEndTime = timeStringToMs(match[2]);
+					int msStartTime = timeStringToMs(matchTimeFrame[1]);
+					int msEndTime = timeStringToMs(matchTimeFrame[2]);
 
-					// Modify the time with the offset, making sure the time gets set to 0 if it is going to be negative
+					// Modify the time with the offset, making sure the time
+					// gets set to 0 if it is going to be negative
 					msStartTime += _timeOffsetMs;
 					msEndTime += _timeOffsetMs;
 					if (msStartTime < 0) msStartTime = 0;
@@ -153,9 +154,6 @@ int Converter::convertFile(string filepath)
 					// Simply replace the commas in the time with a period
 					sLine = Utils::wstr_replace(sLine, L",", L".");
 				}
-			} else {
-				// HTML-encode the text so it is displayed properly by browsers
-				htmlEncodeUtf8(sLine);
 			}
 
 			outfile << sLine << endl; // Output the line to the new file
@@ -172,19 +170,6 @@ int Converter::convertFile(string filepath)
 
 	print("done!");
 	return 0;
-}
-
-void Converter::htmlEncodeUtf8(wstring& str)
-{
-	// HTML-encode certain UTF-8 characters in the ANSI range
-	for (size_t i = 0; i < str.length(); i++)
-	{
-		if (160 <= str[i] && str[i] <= 255) {
-			wstring replacement = L"&#" + to_wstring((unsigned int)str[i]) + L";";
-			str.replace(i, 1, replacement);
-			i += replacement.length() - 1;
-		}
-	}
 }
 
 int Converter::timeStringToMs(const wstring& time)
