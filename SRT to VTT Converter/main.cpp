@@ -27,7 +27,7 @@ int main(int argc, char* argv[])
 		TCLAP::CmdLine cmd(
 			"`srt-vtt` converts SubRip subtitles to the WebVTT subtitle format.\n"
 				"If called without any arguments, all .srt files in the current directory "
-				"will be converted and left within the current directory.\n"
+				"will be converted and saved within the current directory.\n"
 				"Written by Nathan Woltman and distributed under the MIT license.",
 			' ',
 			"1.1.0"
@@ -69,7 +69,7 @@ int main(int argc, char* argv[])
 			"r",
 			"recursive",
 			"If the input is a directory, this flag indicates its subdirectories will be searched "
-				"recursively for .srt files to convert.  This flag is ignored if the input path is a file."
+				"recursively for .srt files to convert. This flag is ignored if the input path is a file."
 		);
 		cmd.add(recursiveArg);
 
