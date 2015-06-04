@@ -61,6 +61,12 @@ public:
 	 * @returns A reference to the input string (subject).
 	 */
 	static std::wstring& wstr_replace(std::wstring& subject, std::wstring search, std::wstring replace);
+
+private:
+	/**
+	 * Prints out the detected encoding type.
+	 */
+	static void dumpEncodingType(const unsigned char *pBuffer, size_t size);
 };
 
 #endif
