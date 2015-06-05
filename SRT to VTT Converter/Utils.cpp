@@ -15,6 +15,7 @@
 
 #include <codecvt>
 #include <dirent.h>
+#include <iostream>
 #include "Utils.h"
 #include "text_encoding_detect.h"
 
@@ -31,6 +32,7 @@ void Utils::openFile(const string& filepath, wifstream& stream)
 	fin.close();
 
 	AutoIt::TextEncodingDetect encodingDetector;
+	dumpEncodingType(buffer, bytes);
 	switch (encodingDetector.DetectEncoding(buffer, bytes)) {
 		// UTF-16
 		case AutoIt::TextEncodingDetect::UTF16_LE_BOM:
@@ -45,13 +47,53 @@ void Utils::openFile(const string& filepath, wifstream& stream)
 			throw runtime_error("Converting UTF-16 encoded files is not supported on your platform.");
 		#endif
 
-		// ASCII, ANSI, UTF-8, none (treat as UTF-8)
-		default:
+		case AutoIt::TextEncodingDetect::UTF8_BOM:
+		case AutoIt::TextEncodingDetect::UTF8_NOBOM:
 			stream.open(filepath);
 			stream.imbue(locale(fin.getloc(), new codecvt_utf8<wchar_t, 0x10ffff, consume_header>));
 			break;
+
+		// ASCII, ANSI, none
+		default:
+			stream.open(filepath);
+			stream.imbue(locale(fin.getloc(), new codecvt<wchar_t, char, mbstate_t>));
+			break;
 	}
 }
+
+void Utils::dumpEncodingType(const unsigned char *pBuffer, size_t size)
+{
+	AutoIt::TextEncodingDetect encodingDetector;
+	switch (encodingDetector.DetectEncoding(pBuffer, size)) {
+		case AutoIt::TextEncodingDetect::None:
+			cout << " No text encoding detected.  ";
+			break;
+		case AutoIt::TextEncodingDetect::ANSI:
+			cout << " ANSI text encoding detected.  ";
+			break;
+		case AutoIt::TextEncodingDetect::ASCII:
+			cout << " ASCII text encoding detected.  ";
+			break;
+		case AutoIt::TextEncodingDetect::UTF8_BOM:
+			cout << " UTF8_BOM text encoding detected.  ";
+			break;
+		case AutoIt::TextEncodingDetect::UTF8_NOBOM:
+			cout << " UTF8_NOBOM text encoding detected.  ";
+			break;
+		case AutoIt::TextEncodingDetect::UTF16_LE_BOM:
+			cout << " UTF16_LE_BOM text encoding detected.  ";
+			break;
+		case AutoIt::TextEncodingDetect::UTF16_LE_NOBOM:
+			cout << " UTF16_LE_NOBOM text encoding detected.  ";
+			break;
+		case AutoIt::TextEncodingDetect::UTF16_BE_BOM:
+			cout << " UTF16_BE_BOM text encoding detected.  ";
+			break;
+		case AutoIt::TextEncodingDetect::UTF16_BE_NOBOM:
+			cout << " UTF16_BE_NOBOM text encoding detected.  ";
+			break;
+ 	}
+ }
 
 bool Utils::isDir(const string& path)
 {
