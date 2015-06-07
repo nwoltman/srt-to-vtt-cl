@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -g -std=c++11 -O2 -MMD -I ./include
+CXXFLAGS = -std=c++11 -O2 -MMD -I ./include
 OBJECTS = text_encoding_detect.o Utils.o Converter.o main.o
 DEPENDS = $(OBJECTS:.o=.d)
 EXEC = srt-vtt
