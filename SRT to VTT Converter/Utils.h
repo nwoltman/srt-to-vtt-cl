@@ -12,6 +12,7 @@
 
 #include <fstream>
 #include <string>
+#include "text_encoding_detect.h"
 
 
 class Utils
@@ -64,9 +65,14 @@ public:
 
 private:
 	/**
+	 * Determines the number of bytes in a file.
+	 */
+	static unsigned long long getFileSize(const std::string& filepath);
+
+	/**
 	 * Prints out the detected encoding type.
 	 */
-	static void dumpEncodingType(const unsigned char *pBuffer, size_t size);
+	static void dumpEncodingType(AutoIt::TextEncodingDetect::Encoding encoding);
 };
 
 #endif

@@ -17,23 +17,25 @@
 #include <dirent.h>
 #include <iostream>
 #include "Utils.h"
-#include "text_encoding_detect.h"
 
 using namespace std;
+
+#define FILE_TEST_SIZE 2048 // 2 kb
 
 
 void Utils::openFile(const string& filepath, wifstream& stream)
 {
-	// Read in 2 kb of the file
-	const size_t bytes = 2048;
-	unsigned char buffer[bytes];
+	unsigned char buffer[FILE_TEST_SIZE];
+	const unsigned long long fileLength = getFileSize(filepath);
+	const size_t bytes = fileLength < FILE_TEST_SIZE ? (size_t)fileLength : FILE_TEST_SIZE;
 	ifstream fin(filepath);
 	fin.read((char*)buffer, bytes);
 	fin.close();
 
 	AutoIt::TextEncodingDetect encodingDetector;
-	dumpEncodingType(buffer, bytes);
-	switch (encodingDetector.DetectEncoding(buffer, bytes)) {
+	AutoIt::TextEncodingDetect::Encoding encoding = encodingDetector.DetectEncoding(buffer, bytes);
+	dumpEncodingType(encoding);
+	switch (encoding) {
 		// UTF-16
 		case AutoIt::TextEncodingDetect::UTF16_LE_BOM:
 		case AutoIt::TextEncodingDetect::UTF16_LE_NOBOM:
@@ -61,10 +63,15 @@ void Utils::openFile(const string& filepath, wifstream& stream)
 	}
 }
 
-void Utils::dumpEncodingType(const unsigned char *pBuffer, size_t size)
+unsigned long long Utils::getFileSize(const std::string& filepath)
 {
-	AutoIt::TextEncodingDetect encodingDetector;
-	switch (encodingDetector.DetectEncoding(pBuffer, size)) {
+	ifstream fin(filepath, std::ifstream::ate | std::ifstream::binary);
+	return fin.tellg();
+}
+
+void Utils::dumpEncodingType(AutoIt::TextEncodingDetect::Encoding encoding)
+{
+	switch (encoding) {
 		case AutoIt::TextEncodingDetect::None:
 			cout << " No text encoding detected.  ";
 			break;
