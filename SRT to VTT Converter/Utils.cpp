@@ -20,7 +20,7 @@
 
 using namespace std;
 
-#define FILE_TEST_SIZE 2048 // 2 kb
+#define FILE_TEST_SIZE 4096 // 4 kb
 
 
 void Utils::openFile(const string& filepath, wifstream& stream)
