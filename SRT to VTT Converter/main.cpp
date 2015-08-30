@@ -2,7 +2,7 @@
  * @file main.cpp
  * Main file for the SRT to VTT Converter. Processes command line options.
  *
- * @version 1.1.1
+ * @version 1.2.0
  * @author Nathan Woltman
  * @copyright 2014-2015 Nathan Woltman
  * @license MIT https://github.com/woollybogger/srt-to-vtt-cl/blob/master/LICENSE.txt
@@ -30,7 +30,7 @@ int main(int argc, char* argv[])
 				"will be converted and saved within the current directory.\n"
 				"Written by Nathan Woltman and distributed under the MIT license.",
 			' ',
-			"1.1.1"
+			"1.2.0"
 		);
 
 		// Define arguments
