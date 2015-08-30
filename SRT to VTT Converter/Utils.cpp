@@ -28,7 +28,7 @@ void Utils::openFile(const string& filepath, wifstream& stream)
 	unsigned char buffer[FILE_TEST_SIZE];
 	const unsigned long long fileLength = getFileSize(filepath);
 	const size_t bytes = fileLength < FILE_TEST_SIZE ? (size_t)fileLength : FILE_TEST_SIZE;
-	ifstream fin(filepath);
+	ifstream fin(filepath, ifstream::binary);
 	fin.read((char*)buffer, bytes);
 	fin.close();
 
@@ -63,9 +63,9 @@ void Utils::openFile(const string& filepath, wifstream& stream)
 	}
 }
 
-unsigned long long Utils::getFileSize(const std::string& filepath)
+unsigned long long Utils::getFileSize(const string& filepath)
 {
-	ifstream fin(filepath, std::ifstream::ate | std::ifstream::binary);
+	ifstream fin(filepath, ifstream::ate | ifstream::binary);
 	return fin.tellg();
 }
 
