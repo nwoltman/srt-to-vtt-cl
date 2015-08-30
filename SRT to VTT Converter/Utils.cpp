@@ -23,7 +23,7 @@ using namespace std;
 #define FILE_TEST_SIZE 4096 // 4 kb
 
 
-void Utils::openFile(const string& filepath, wifstream& stream)
+void Utils::openFile(const string& filepath, wifstream& stream, bool verbose)
 {
 	unsigned char buffer[FILE_TEST_SIZE];
 	const unsigned long long fileLength = getFileSize(filepath);
@@ -34,7 +34,9 @@ void Utils::openFile(const string& filepath, wifstream& stream)
 
 	AutoIt::TextEncodingDetect encodingDetector;
 	AutoIt::TextEncodingDetect::Encoding encoding = encodingDetector.DetectEncoding(buffer, bytes);
-	dumpEncodingType(encoding);
+	if (verbose) {
+		dumpEncodingType(encoding);
+	}
 	switch (encoding) {
 		// UTF-16
 		case AutoIt::TextEncodingDetect::UTF16_LE_BOM:
@@ -73,34 +75,35 @@ void Utils::dumpEncodingType(AutoIt::TextEncodingDetect::Encoding encoding)
 {
 	switch (encoding) {
 		case AutoIt::TextEncodingDetect::None:
-			cout << " No text encoding detected.  ";
+			cout << "No";
 			break;
 		case AutoIt::TextEncodingDetect::ANSI:
-			cout << " ANSI text encoding detected.  ";
+			cout << "ANSI";
 			break;
 		case AutoIt::TextEncodingDetect::ASCII:
-			cout << " ASCII text encoding detected.  ";
+			cout << "ASCII";
 			break;
 		case AutoIt::TextEncodingDetect::UTF8_BOM:
-			cout << " UTF8_BOM text encoding detected.  ";
+			cout << "UTF8_BOM";
 			break;
 		case AutoIt::TextEncodingDetect::UTF8_NOBOM:
-			cout << " UTF8_NOBOM text encoding detected.  ";
+			cout << "UTF8_NOBOM";
 			break;
 		case AutoIt::TextEncodingDetect::UTF16_LE_BOM:
-			cout << " UTF16_LE_BOM text encoding detected.  ";
+			cout << "UTF16_LE_BOM";
 			break;
 		case AutoIt::TextEncodingDetect::UTF16_LE_NOBOM:
-			cout << " UTF16_LE_NOBOM text encoding detected.  ";
+			cout << "UTF16_LE_NOBOM";
 			break;
 		case AutoIt::TextEncodingDetect::UTF16_BE_BOM:
-			cout << " UTF16_BE_BOM text encoding detected.  ";
+			cout << "UTF16_BE_BOM";
 			break;
 		case AutoIt::TextEncodingDetect::UTF16_BE_NOBOM:
-			cout << " UTF16_BE_NOBOM text encoding detected.  ";
+			cout << "UTF16_BE_NOBOM";
 			break;
- 	}
- }
+	}
+	cout << " text encoding detected ...";
+}
 
 bool Utils::isDir(const string& path)
 {

@@ -24,11 +24,12 @@
 using namespace std;
 
 
-Converter::Converter(int timeOffsetMs, const string& outputDir, bool quiet)
+Converter::Converter(int timeOffsetMs, const string& outputDir, bool quiet, bool verbose)
 {
 	_timeOffsetMs = timeOffsetMs;
 	_outputDir = outputDir;
 	_quiet = quiet;
+	_verbose = verbose;
 
 	// Strip trailing slashes from the output directory's path
 	Utils::rtrim(_outputDir, '/');
@@ -107,7 +108,7 @@ int Converter::convertFile(string filepath)
 		wregex rgxTimeFrame(L"(\\d\\d:\\d\\d:\\d\\d,\\d{3}) --> (\\d\\d:\\d\\d:\\d\\d,\\d{3})");
 
 		wifstream infile;
-		Utils::openFile(filepath, infile);
+		Utils::openFile(filepath, infile, _verbose);
 		if (!infile.is_open()) {
 			throw ios_base::failure("Could not open .srt file.");
 		}

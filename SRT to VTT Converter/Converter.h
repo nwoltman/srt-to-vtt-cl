@@ -17,7 +17,7 @@ class Converter
 {
 public:
 	/* Constructor */
-	Converter(int timeOffsetMs = 0, const std::string& outputDir = "", bool quiet = false);
+	Converter(int timeOffsetMs = 0, const std::string& outputDir = "", bool quiet = false, bool verbose = false);
 
 	/**
 	 * Converts all files in a directory, optionally converting files in subdirectories.
@@ -44,8 +44,9 @@ private:
 	void print(std::string info, bool eol = true); // Prints information to the console
 
 	int _timeOffsetMs;      // The timing offset in milliseconds
-	std::string _outputDir; // The directory in which the converted .vtt files will be saved.
+	std::string _outputDir; // The directory in which the converted .vtt files will be saved
 	bool _quiet;            // If true, prevents printing to the console
+	bool _verbose;          // If true, extra information will be printed to the console
 };
 
 #endif

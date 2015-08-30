@@ -6,7 +6,7 @@ A command line application that converts subtitle files from SubRib (.srt) forma
 ## Binaries
 
 * [Windows](https://raw.githubusercontent.com/woollybogger/srt-to-vtt-cl/master/bin/Windows/srt-vtt.exe "Download the 32-bit Windows binary file")
-* [Mac OS X](https://raw.githubusercontent.com/woollybogger/srt-to-vtt-cl/master/bin/Mac-OSX/srt-vtt "Download the 32-bit OS X binary file")
+* [Mac OS X](https://raw.githubusercontent.com/woollybogger/srt-to-vtt-cl/master/bin/Mac-OSX/srt-vtt "Download the OS X binary file")
 
 ## Usage
 
@@ -19,6 +19,9 @@ srt-vtt [-q] [-r] [-o <string>] [-t <integer>] [--] [--version] [-h] <string>
 
   -q,  --quiet
     Prevents details about the conversion from being printed to the console.
+
+  -v,  --verbose
+    Indicates that details about the conversion should be printed to the console.
 
   -r,  --recursive
     If the input is a directory, this flag indicates its subdirectories will be searched

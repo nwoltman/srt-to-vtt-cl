@@ -73,10 +73,17 @@ int main(int argc, char* argv[])
 		);
 		cmd.add(recursiveArg);
 
+		TCLAP::SwitchArg verboseArg(
+			"v",
+			"verbose",
+			"Indicates that details about the conversion should be printed to the console."
+			);
+		cmd.add(verboseArg);
+
 		TCLAP::SwitchArg quietArg(
 			"q",
 			"quiet",
-			"Prevents details about the conversion from being printed to the console."
+			"Prevents details about the conversion from being printed to the console. Overrides --verbose."
 		);
 		cmd.add(quietArg);
 
@@ -89,9 +96,10 @@ int main(int argc, char* argv[])
 		string outputDir = outputArg.getValue();
 		bool recursive = recursiveArg.getValue();
 		bool quiet = quietArg.getValue();
+		bool verbose = !quiet && verboseArg.getValue();
 
 		// Convert
-		Converter converter(timeOffset, outputDir, quiet);
+		Converter converter(timeOffset, outputDir, quiet, verbose);
 		if (Utils::isDir(input)) {
 			retCode = converter.convertDirectory(input, recursive);
 		} else if (Utils::pathExists(input)) {

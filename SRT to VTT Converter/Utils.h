@@ -23,8 +23,9 @@ public:
 	 *
 	 * @param filepath The path to a file.
 	 * @param stream A std::wifstream that has not yet been opened.
+	 * @param verbose If true, the file's detected encoding will be printed.
 	 */
-	static void openFile(const std::string& filepath, std::wifstream& stream);
+	static void openFile(const std::string& filepath, std::wifstream& stream, bool verbose = false);
 
 	/**
 	 * Determines if the path is a directory.
