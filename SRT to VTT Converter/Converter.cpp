@@ -12,6 +12,7 @@
 #include <fstream>
 #include <iostream>
 #include <regex>
+#include <stdexcept>
 #include "Converter.h"
 #include "Utils.h"
 
@@ -95,8 +96,14 @@ int Converter::convertFile(string filepath)
 
 	if (!_outputDir.empty()) { // The user specified an output directory
 		if (!Utils::isDir(_outputDir)) {
-			print("Creating directory: " + _outputDir);
-			system(string("mkdir \"" + _outputDir + "\"").c_str());
+			string outputDirQuoted("\"" + _outputDir + "\"");
+			print("Creating directory " + outputDirQuoted);
+			int res = system(string("mkdir " + outputDirQuoted).c_str());
+			if (res != 0) {
+				throw runtime_error(
+					"Failed to create directory " + outputDirQuoted + " with status: " + to_string(res)
+				);
+			}
 		}
 		outpath = _outputDir + DIR_SEPARATOR + outpath.substr(outpath.find_last_of(DIR_SEPARATOR) + 1);
 	}

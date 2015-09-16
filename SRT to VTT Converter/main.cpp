@@ -8,6 +8,7 @@
  * @license MIT https://github.com/woollybogger/srt-to-vtt-cl/blob/master/LICENSE.txt
  */
 
+#include <exception>
 #include <iostream>
 #include <limits.h>
 #include <string>
@@ -100,17 +101,23 @@ int main(int argc, char* argv[])
 
 		// Convert
 		Converter converter(timeOffset, outputDir, quiet, verbose);
-		if (Utils::isDir(input)) {
-			retCode = converter.convertDirectory(input, recursive);
-		} else if (Utils::pathExists(input)) {
-			retCode = converter.convertFile(input);
-		} else {
-			cerr << "The input path does not exist!" << endl;
+		try {
+			if (Utils::isDir(input)) {
+				retCode = converter.convertDirectory(input, recursive);
+			} else if (Utils::pathExists(input)) {
+				retCode = converter.convertFile(input);
+			} else {
+				cerr << "Error: The input path does not exist!" << endl;
+				retCode = 1;
+			}
+		}
+		catch (exception &e) {
+			cerr << "Error: " << e.what() << endl;
 			retCode = 1;
 		}
 	}
 	catch (TCLAP::ArgException &e) {
-		cerr << "error: " << e.error() << " for arg " << e.argId() << endl;
+		cerr << "Error: " << e.error() << " for arg " << e.argId() << endl;
 		retCode = 1;
 	}
 
