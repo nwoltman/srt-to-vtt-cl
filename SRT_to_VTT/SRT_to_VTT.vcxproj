@@ -13,7 +13,8 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4604E2E0-B560-43E5-9E8A-09FB8E402E20}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>SRTtoVTTConverter</RootNamespace>
+    <RootNamespace>SRT_to_VTT</RootNamespace>
+    <ProjectName>SRT_to_VTT</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
