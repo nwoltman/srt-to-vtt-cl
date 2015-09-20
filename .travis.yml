@@ -1,0 +1,13 @@
+sudo: false
+language: cpp
+compiler: gcc
+script:
+  - cd SRT_to_VTT
+  - make
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - gcc-5
+    - g++-5
