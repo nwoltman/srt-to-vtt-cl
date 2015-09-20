@@ -58,7 +58,6 @@ srt-vtt [-q] [-r] [-o <string>] [-t <integer>] [--] [--version] [-h] <string>
 **Note: Linux requires GCC v5.1 or greater**
 
 ```sh
-cd SRT_to_VTT
 make
 ```
 
