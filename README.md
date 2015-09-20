@@ -51,3 +51,19 @@ srt-vtt [-q] [-r] [-o <string>] [-t <integer>] [--] [--version] [-h] <string>
   converted and saved within the current directory.
 ```
 
+## Build
+
+### OS X / Linux
+
+**Note: Linux requires GCC v5.1 or greater**
+
+```sh
+cd SRT_to_VTT
+make
+```
+
+### Windows
+
++ Open the Visual Studio solution
++ If in *Debug* mode change to *Release* mode
++ Press `Ctrl+Shift+B` or go to `Build -> Build Solution`
