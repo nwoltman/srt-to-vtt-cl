@@ -8,13 +8,13 @@
  * @license MIT https://github.com/woollybogger/srt-to-vtt-cl/blob/master/LICENSE.txt
  */
 
+#include "Converter.h"
+#include "Utils.h"
 #include <iostream>
 #include <limits.h>
 #include <stdexcept>
 #include <string>
 #include <tclap/CmdLine.h>
-#include "Converter.h"
-#include "Utils.h"
 
 using namespace std;
 

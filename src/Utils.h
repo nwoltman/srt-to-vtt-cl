@@ -10,9 +10,9 @@
 #ifndef UTILS_H_
 #define UTILS_H_
 
+#include "text_encoding_detect.h"
 #include <fstream>
 #include <string>
-#include "text_encoding_detect.h"
 
 
 class Utils

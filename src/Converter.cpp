@@ -7,13 +7,13 @@
  * @license MIT https://github.com/woollybogger/srt-to-vtt-cl/blob/master/LICENSE.txt
  */
 
+#include "Converter.h"
+#include "Utils.h"
 #include <codecvt>
 #include <dirent.h>
 #include <fstream>
 #include <iostream>
 #include <regex>
-#include "Converter.h"
-#include "Utils.h"
 
 #if defined(_WIN32) || defined(WIN32)
 #define DIR_SEPARATOR "\\"

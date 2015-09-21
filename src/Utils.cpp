@@ -7,17 +7,17 @@
  * @license MIT https://github.com/woollybogger/srt-to-vtt-cl/blob/master/LICENSE.txt
  */
 
+#include "Utils.h"
+#include <codecvt>
+#include <dirent.h>
+#include <stdexcept>
+#include <iostream>
+
 #if defined(_WIN32) || defined(WIN32)
 #include <Windows.h>
 #else
 #include <sys/stat.h>
 #endif
-
-#include <codecvt>
-#include <dirent.h>
-#include <stdexcept>
-#include <iostream>
-#include "Utils.h"
 
 using namespace std;
 
