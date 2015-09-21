@@ -55,7 +55,7 @@ srt-vtt [-q] [-r] [-o <string>] [-t <integer>] [--] [--version] [-h] <string>
 
 ### OS X / Linux
 
-**Note: Linux requires GCC v5.1 or greater**
+**Compiler requirements: Clang v3.4+ or GCC v5.1+**
 
 ```sh
 make

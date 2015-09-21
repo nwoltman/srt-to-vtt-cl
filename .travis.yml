@@ -1,7 +1,9 @@
 sudo: false
 language: cpp
-compiler: gcc
-install: export CXX="g++-5"
+compiler:
+  - gcc
+  - clang
+install: if [ "$CXX" = "g++" ]; then export CXX="g++-5"; fi
 script: make
 addons:
   apt:
