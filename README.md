@@ -67,3 +67,10 @@ make
 + Open the Visual Studio solution
 + If in *Debug* mode change to *Release* mode
 + Press `Ctrl+Shift+B` or go to `Build -> Build Solution`
+
+## Test
+
+```sh
+make
+make test
+```

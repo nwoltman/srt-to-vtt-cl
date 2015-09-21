@@ -176,3 +176,6 @@ FakesAssemblies/
 # Build files
 *.o
 *.d
+
+# Test Output
+test/output

@@ -4,7 +4,9 @@ compiler:
   - gcc
   - clang
 install: if [ "$CXX" = "g++" ]; then export CXX="g++-5"; fi
-script: make
+script:
+  - make
+  - make test
 addons:
   apt:
     sources:

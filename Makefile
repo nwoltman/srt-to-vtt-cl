@@ -15,17 +15,23 @@ else
 	UNAME_M := $(shell uname -m)
 	BIN_DIR = bin/$(UNAME_S)/$(UNAME_M)
 endif
+EXEC_PATH = $(BIN_DIR)/$(EXEC)
+
+.PHONY: test
 
 all: $(EXEC)
 
 $(EXEC): $(OBJECTS)
 	mkdir -p $(BIN_DIR)
-	$(CXX) $(CXXFLAGS) $(OBJECTS) -o $(BIN_DIR)/$(EXEC)
+	$(CXX) $(CXXFLAGS) $(OBJECTS) -o $(EXEC_PATH)
 
 clean:
 	rm -rf $(DEPENDS) $(OBJECTS)
 
 cleanall:
-	rm -rf $(DEPENDS) $(OBJECTS) $(BIN_DIR)/$(EXEC)
+	rm -rf $(DEPENDS) $(OBJECTS) $(EXEC_PATH)
+
+test:
+	./test/test.sh $(EXEC_PATH)
 
 -include $(DEPENDS)
