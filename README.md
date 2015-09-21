@@ -15,10 +15,11 @@ For the most basic usage, simply put the binary file in the same directory as th
 For more advanced usage, see below:
 
 ```
-srt-vtt [-q] [-r] [-o <string>] [-t <integer>] [--] [--version] [-h] <string>
+srt-vtt  [-q] [-v] [-r] [-o <string>] [-t <integer>] [--] [--version] [-h] <string>
 
   -q,  --quiet
     Prevents details about the conversion from being printed to the console.
+    Overrides --verbose.
 
   -v,  --verbose
     Indicates that details about the conversion should be printed to the console.
