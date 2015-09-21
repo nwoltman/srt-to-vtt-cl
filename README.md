@@ -1,7 +1,8 @@
-SRT to VTT Command Line
-=============
+# SRT to VTT Command Line
 
 A command line application that converts subtitle files from SubRib (.srt) format to WebVTT (.vtt) format.
+
+[![Build Status](https://travis-ci.org/woollybogger/srt-to-vtt-cl.svg?branch=master)](https://travis-ci.org/woollybogger/srt-to-vtt-cl)
 
 ## Binaries
 
