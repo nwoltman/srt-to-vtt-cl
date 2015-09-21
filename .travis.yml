@@ -1,3 +1,6 @@
+os:
+  - linux
+  - osx
 sudo: false
 language: cpp
 compiler:
@@ -6,7 +9,7 @@ compiler:
 install: if [ "$CXX" = "g++" ]; then export CXX="g++-5"; fi
 script:
   - make
-  - make test
+  - if [ "$TRAVIS_OS_NAME" = "osx" ]; then make test; fi
 addons:
   apt:
     sources:
@@ -14,3 +17,7 @@ addons:
     packages:
       - gcc-5
       - g++-5
+matrix:
+  exclude:
+    - os: osx
+      compiler: gcc
