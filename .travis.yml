@@ -1,6 +1,7 @@
 sudo: false
 language: cpp
 compiler: gcc
+install: export CXX="g++-5"
 script: make
 addons:
   apt:
