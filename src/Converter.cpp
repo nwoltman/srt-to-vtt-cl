@@ -12,7 +12,6 @@
 #include <fstream>
 #include <iostream>
 #include <regex>
-#include <stdexcept>
 #include "Converter.h"
 #include "Utils.h"
 
@@ -35,6 +34,13 @@ Converter::Converter(int timeOffsetMs, const string& outputDir, bool quiet, bool
     // Strip trailing slashes from the output directory's path
     Utils::rtrim(_outputDir, '/');
     Utils::rtrim(_outputDir, '\\');
+
+    if (!_outputDir.empty() && !Utils::isDir(_outputDir)) { // Create the output directory
+        if (_verbose) {
+            print("Creating directory \"" + _outputDir + "\"");
+        }
+        Utils::makeDir(_outputDir);
+    }
 }
 
 int Converter::convertDirectory(string& dirpath, bool recursive)
@@ -95,16 +101,6 @@ int Converter::convertFile(string filepath)
     string outpath = regex_replace(filepath, regex("\\.srt$", regex_constants::icase), string("")) + ".vtt";
 
     if (!_outputDir.empty()) { // The user specified an output directory
-        if (!Utils::isDir(_outputDir)) {
-            string outputDirQuoted("\"" + _outputDir + "\"");
-            print("Creating directory " + outputDirQuoted);
-            int res = system(string("mkdir " + outputDirQuoted).c_str());
-            if (res != 0) {
-                throw runtime_error(
-                    "Failed to create directory " + outputDirQuoted + " with status: " + to_string(res)
-                    );
-            }
-        }
         outpath = _outputDir + DIR_SEPARATOR + outpath.substr(outpath.find_last_of(DIR_SEPARATOR) + 1);
     }
 

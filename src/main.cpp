@@ -8,9 +8,9 @@
  * @license MIT https://github.com/woollybogger/srt-to-vtt-cl/blob/master/LICENSE.txt
  */
 
-#include <exception>
 #include <iostream>
 #include <limits.h>
+#include <stdexcept>
 #include <string>
 #include <tclap/CmdLine.h>
 #include "Converter.h"
@@ -31,8 +31,7 @@ int main(int argc, char* argv[])
             "will be converted and saved within the current directory.\n"
             "Written by Nathan Woltman and distributed under the MIT license.",
             ' ',
-            "1.2.0"
-            );
+            "1.2.0");
 
         // Define arguments
         TCLAP::UnlabeledValueArg<string> inputArg(
@@ -41,8 +40,7 @@ int main(int argc, char* argv[])
             "(to convert files in a directory and it's subdirectories, include the -r switch).",
             false,
             ".",
-            "string"
-            );
+            "string");
         cmd.add(inputArg);
 
         TCLAP::ValueArg<int> offsetArg(
@@ -52,8 +50,7 @@ int main(int argc, char* argv[])
             + to_string(INT_MAX) + " and " + to_string(INT_MIN) + ".",
             false,
             0,
-            "integer"
-            );
+            "integer");
         cmd.add(offsetArg);
 
         TCLAP::ValueArg<string> outputArg(
@@ -62,33 +59,29 @@ int main(int argc, char* argv[])
             "The path to a directory where all output VTT files will be saved.",
             false,
             "",
-            "string"
-            );
+            "string");
         cmd.add(outputArg);
 
         TCLAP::SwitchArg recursiveArg(
             "r",
             "recursive",
             "If the input is a directory, this flag indicates its subdirectories will be searched "
-            "recursively for .srt files to convert. This flag is ignored if the input path is a file."
-            );
+            "recursively for .srt files to convert. This flag is ignored if the input path is a file.");
         cmd.add(recursiveArg);
 
         TCLAP::SwitchArg verboseArg(
             "v",
             "verbose",
-            "Indicates that details about the conversion should be printed to the console."
-            );
+            "Indicates that details about the conversion should be printed to the console.");
         cmd.add(verboseArg);
 
         TCLAP::SwitchArg quietArg(
             "q",
             "quiet",
-            "Prevents details about the conversion from being printed to the console. Overrides --verbose."
-            );
+            "Prevents details about the conversion from being printed to the console. Overrides --verbose.");
         cmd.add(quietArg);
 
-        // Parse the argv array
+        // Parse the command line arguments
         cmd.parse(argc, argv);
 
         // Get the value parsed by each arg
@@ -99,16 +92,16 @@ int main(int argc, char* argv[])
         bool quiet = quietArg.getValue();
         bool verbose = !quiet && verboseArg.getValue();
 
-        // Convert
-        Converter converter(timeOffset, outputDir, quiet, verbose);
         try {
+            if (!Utils::pathExists(input)) {
+                throw runtime_error("The input path does not exist!");
+            }
+            // Convert
+            Converter converter(timeOffset, outputDir, quiet, verbose);
             if (Utils::isDir(input)) {
                 retCode = converter.convertDirectory(input, recursive);
-            } else if (Utils::pathExists(input)) {
-                retCode = converter.convertFile(input);
             } else {
-                cerr << "Error: The input path does not exist!" << endl;
-                retCode = 1;
+                retCode = converter.convertFile(input);
             }
         } catch (exception &e) {
             cerr << "Error: " << e.what() << endl;

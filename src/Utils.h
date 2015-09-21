@@ -36,6 +36,14 @@ public:
     static bool isDir(const std::string& path);
 
     /**
+     * Creates a directory at the specified path.
+     *
+     * @param path The directory path string.
+     * @throws runtime_error Throws if the directory creation fails.
+     */
+    static void makeDir(const std::string& path);
+
+    /**
      * Determines if a path to a file system object such as a file or directory is valid.
      *
      * @param path The path string.

@@ -15,6 +15,7 @@
 
 #include <codecvt>
 #include <dirent.h>
+#include <stdexcept>
 #include <iostream>
 #include "Utils.h"
 
@@ -118,6 +119,14 @@ bool Utils::isDir(const string& path)
 #endif
 
     return false;
+}
+
+void Utils::makeDir(const string& path)
+{
+    int res = system(("mkdir \"" + path + "\"").c_str());
+    if (res != 0) {
+        throw runtime_error("Failed to create directory \"" + path + "\" with status: " + to_string(res));
+    }
 }
 
 bool Utils::pathExists(const string& path)
