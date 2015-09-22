@@ -27,9 +27,9 @@ int main(int argc, char* argv[])
         // Initialze the tclap command line parser
         TCLAP::CmdLine cmd(
             "`srt-vtt` converts SubRip subtitles to the WebVTT subtitle format.\n"
-            "If called without any arguments, all .srt files in the current directory "
-            "will be converted and saved within the current directory.\n"
-            "Written by Nathan Woltman and distributed under the MIT license.",
+              "If called without any arguments, all .srt files in the current directory "
+              "will be converted and saved within the current directory.\n"
+              "Written by Nathan Woltman and distributed under the MIT license.",
             ' ',
             "1.2.0");
 
@@ -37,7 +37,7 @@ int main(int argc, char* argv[])
         TCLAP::UnlabeledValueArg<string> inputArg(
             "input",
             "Path to a file to convert or directory containing files to convert "
-            "(to convert files in a directory and it's subdirectories, include the -r switch).",
+              "(to convert files in a directory and it's subdirectories, include the -r switch).",
             false,
             ".",
             "string");
@@ -46,8 +46,8 @@ int main(int argc, char* argv[])
         TCLAP::ValueArg<int> offsetArg(
             "t",
             "offset",
-            "Timing offset in milliseconds. Can be any integer between "
-            + to_string(INT_MAX) + " and " + to_string(INT_MIN) + ".",
+            "Timing offset in milliseconds. Can be any integer between " +
+              to_string(INT_MAX) + " and " + to_string(INT_MIN) + ".",
             false,
             0,
             "integer");
@@ -66,7 +66,7 @@ int main(int argc, char* argv[])
             "r",
             "recursive",
             "If the input is a directory, this flag indicates its subdirectories will be searched "
-            "recursively for .srt files to convert. This flag is ignored if the input path is a file.");
+              "recursively for .srt files to convert. This flag is ignored if the input path is a file.");
         cmd.add(recursiveArg);
 
         TCLAP::SwitchArg verboseArg(
