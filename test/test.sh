@@ -20,7 +20,7 @@ diff -r $DIR/output/basic $DIR/expected/basic
 
 echo
 echo RECURSIVE
-$SRT_VTT -r -o $DIR/output/recursive $DIR/input
+$SRT_VTT -r -o $DIR/output/recursive "$DIR/input/level 1"
 diff -r $DIR/output/recursive $DIR/expected/recursive
 
 echo
