@@ -8,6 +8,7 @@ A command line application that converts subtitle files from SubRib (.srt) forma
 
 * [Windows](https://raw.githubusercontent.com/woollybogger/srt-to-vtt-cl/master/bin/Windows/srt-vtt.exe "Download the 32-bit Windows binary file")
 * [Mac OS X](https://raw.githubusercontent.com/woollybogger/srt-to-vtt-cl/master/bin/Mac-OSX/srt-vtt "Download the OS X binary file")
+* Linux - [build instructions](#build)
 
 ## Usage
 
@@ -60,14 +61,19 @@ srt-vtt  [-q] [-v] [-r] [-o <string>] [-t <integer>] [--] [--version] [-h] <stri
 **Compiler requirements: Clang v3.4+ or GCC v5.1+**
 
 ```sh
+git clone https://github.com/woollybogger/srt-to-vtt-cl.git
+cd srt-to-vtt-cl
 make
 ```
+
+The built binary will be located in `bin/Mac-OSX` on OS X and `bin/<uname -s>/<uname -m>` on Linux  
+(i.e. on Ubuntu: `bin/Linux/x86_64`)
 
 ### Windows
 
 + Open the Visual Studio solution
-+ If in *Debug* mode change to *Release* mode
-+ Press `Ctrl+Shift+B` or go to `Build -> Build Solution`
++ If in *Debug* mode, change to *Release* mode
++ Press `Ctrl+Shift+B` or in the menu `Build -> Build Solution`
 
 ## Test
 
