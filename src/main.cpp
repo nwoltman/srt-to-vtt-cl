@@ -4,8 +4,8 @@
  *
  * @version 1.2.0
  * @author Nathan Woltman
- * @copyright 2014-2015 Nathan Woltman
- * @license MIT https://github.com/woollybogger/srt-to-vtt-cl/blob/master/LICENSE.txt
+ * @copyright 2014-2016 Nathan Woltman
+ * @license MIT https://github.com/nwoltman/srt-to-vtt-cl/blob/master/LICENSE.txt
  */
 
 #include "Converter.h"

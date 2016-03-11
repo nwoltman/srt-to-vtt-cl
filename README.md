@@ -2,12 +2,12 @@
 
 A command line application that converts subtitle files from SubRib (.srt) format to WebVTT (.vtt) format.
 
-[![Build Status](https://travis-ci.org/woollybogger/srt-to-vtt-cl.svg?branch=master)](https://travis-ci.org/woollybogger/srt-to-vtt-cl)
+[![Build Status](https://travis-ci.org/nwoltman/srt-to-vtt-cl.svg?branch=master)](https://travis-ci.org/nwoltman/srt-to-vtt-cl)
 
 ## Binaries
 
-* [Windows](https://raw.githubusercontent.com/woollybogger/srt-to-vtt-cl/master/bin/Windows/srt-vtt.exe "Download the 32-bit Windows binary file")
-* [Mac OS X](https://raw.githubusercontent.com/woollybogger/srt-to-vtt-cl/master/bin/Mac-OSX/srt-vtt "Download the OS X binary file")
+* [Windows](https://github.com/nwoltman/srt-to-vtt-cl/raw/master/bin/Windows/srt-vtt.exe "Download the 32-bit Windows binary file")
+* [Mac OS X](https://github.com/nwoltman/srt-to-vtt-cl/raw/master/bin/Mac-OSX/srt-vtt "Download the OS X binary file")
 * Linux - [build instructions](#build)
 
 ## Usage
@@ -61,7 +61,7 @@ srt-vtt  [-q] [-v] [-r] [-o <string>] [-t <integer>] [--] [--version] [-h] <stri
 **Compiler requirements: Clang v3.4+ or GCC v5.1+**
 
 ```sh
-git clone https://github.com/woollybogger/srt-to-vtt-cl.git
+git clone https://github.com/nwoltman/srt-to-vtt-cl.git
 cd srt-to-vtt-cl
 make
 ```
