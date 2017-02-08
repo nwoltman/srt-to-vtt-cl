@@ -1,4 +1,2 @@
 * text=auto
-test/input/subs1.srt eol=crlf
-test/input/subs2.srt eol=crlf
-test/input/subs3.srt eol=lf
+test/input/**/*.srt binary
