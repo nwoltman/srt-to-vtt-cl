@@ -3,24 +3,16 @@ language: cpp
 os:
   - linux
   - osx
+dist: xenial
 
 compiler:
   - gcc
   - clang
 
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - g++-5
-
 matrix:
   exclude:
     - os: osx
       compiler: gcc
-
-before_script: if [ "$CXX" = "g++" ]; then export CXX="g++-5"; fi
 
 script:
   - make
