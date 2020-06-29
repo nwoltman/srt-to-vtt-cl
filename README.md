@@ -1,8 +1,10 @@
 # SRT to VTT Command Line
 
+[![Build Status](https://travis-ci.org/nwoltman/srt-to-vtt-cl.svg?branch=master)](https://travis-ci.org/nwoltman/srt-to-vtt-cl)
+
 A command line tool that converts subtitle files from SubRib (.srt) format to WebVTT (.vtt) format.
 
-[![Build Status](https://travis-ci.org/nwoltman/srt-to-vtt-cl.svg?branch=master)](https://travis-ci.org/nwoltman/srt-to-vtt-cl)
+If you'd rather use a GUI than the command line, check out the [SRT to VTT Converter](https://github.com/nwoltman/srt-to-vtt-converter).
 
 ## Binaries
 
@@ -66,7 +68,7 @@ cd srt-to-vtt-cl
 make
 ```
 
-The built binary will be located in `bin/Mac-OSX` on OS X and `bin/<uname -s>/<uname -m>` on Linux  
+The built binary will be located in `bin/Mac-OSX` on OS X and `bin/<uname -s>/<uname -m>` on Linux
 (i.e. on Ubuntu: `bin/Linux/x86_64`)
 
 ### Windows
