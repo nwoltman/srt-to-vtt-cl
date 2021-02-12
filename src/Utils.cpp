@@ -9,13 +9,13 @@
 
 #include "Utils.h"
 #include <codecvt>
-#include <dirent.h>
 #include <stdexcept>
 #include <iostream>
 
 #if defined(_WIN32) || defined(WIN32)
 #include <Windows.h>
 #else
+#include <dirent.h>
 #include <sys/stat.h>
 #endif
 

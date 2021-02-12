@@ -10,14 +10,15 @@
 #include "Converter.h"
 #include "Utils.h"
 #include <codecvt>
-#include <dirent.h>
 #include <fstream>
 #include <iostream>
 #include <regex>
 
 #if defined(_WIN32) || defined(WIN32)
+#include <windows/dirent.h>
 #define DIR_SEPARATOR "\\"
 #else
+#include <dirent.h>
 #define DIR_SEPARATOR "/"
 #endif
 
