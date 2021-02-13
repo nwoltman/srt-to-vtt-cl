@@ -108,9 +108,6 @@ int Converter::convertFile(string filepath)
     print("Converting file: " + filepath + " => " + outpath + " ...", false);
 
     try {
-        wregex rgxDialogNumber(L"\\d+");
-        wregex rgxTimeFrame(L"(\\d\\d:\\d\\d:\\d\\d,\\d{3}) --> (\\d\\d:\\d\\d:\\d\\d,\\d{3})");
-
         wifstream infile;
         Utils::openFile(filepath, infile, _verbose);
         if (!infile.is_open()) {
@@ -126,6 +123,9 @@ int Converter::convertFile(string filepath)
         // Write mandatory starting for the WebVTT file
         outfile << "WEBVTT" << endl << endl;
 
+        wregex rgxDialogNumber(L"\\d+");
+        wregex rgxTimeFrame(L"(\\d\\d:\\d\\d:\\d\\d,\\d{1,3}) --> (\\d\\d:\\d\\d:\\d\\d,\\d{1,3})");
+
         for (;;)
         {
             wstring sLine;
@@ -140,8 +140,12 @@ int Converter::convertFile(string filepath)
 
             wsmatch matchTimeFrame;
             regex_match(sLine, matchTimeFrame, rgxTimeFrame);
+
             if (!matchTimeFrame.empty()) {
-                if (_timeOffsetMs != 0) {
+                // Handle invalid SRT files where the time frame's milliseconds are less than 3 digits long
+                bool msTooShort = matchTimeFrame[1].length() < 12 || matchTimeFrame[2].length() < 12;
+
+                if (_timeOffsetMs != 0 || msTooShort) {
                     // Extract the times in milliseconds from the time frame line
                     int msStartTime = timeStringToMs(matchTimeFrame[1]);
                     int msEndTime = timeStringToMs(matchTimeFrame[2]);

@@ -1,0 +1,35 @@
+1
+00:00:00,00 --> 00:00:07,00
+Dear students, in this video I'm going to show and talk about the pressure sensor measurement.
+
+2
+00:00:07,00 --> 00:00:11,00
+Here you can see the measurement setup with sensors and instruments.
+
+3
+00:00:11,00 --> 00:00:21,00
+Here are the two sensors to be measured, an absolute and a relative pressure sensor. The sensors are in metal packages.
+
+4
+00:00:21,00 --> 00:00:32,00
+Both sensors are embedded in a metal block for purpose of changing and maintaining temperature.
+
+5
+00:00:32,00 --> 00:00:40,00
+These tubes transmit pressurized air to the sensors, coming from a compressor.
+
+6
+00:00:40,00 --> 00:00:51,00
+The output pins of the sensors are down here, which are connected to the banana sockets up there.
+
+7
+00:00:51,00 --> 00:01:14,00
+The schematic on top shows that a sensor is made by a resistor bridge of four resistors, with all four poles connected to sockets for measurement or supplying power,
+
+8
+00:01:14,00 --> 00:01:19,00
+or even measuring resistances directly.
+
+9
+00:01:20,00 --> 00:01:29,00
+The sensors each have a built-in thermistor (temperature sensor), one of which is connected to the sockets on the left.
