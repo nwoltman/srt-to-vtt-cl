@@ -1,6 +1,6 @@
 # SRT to VTT Command Line
 
-[![Build Status](https://travis-ci.org/nwoltman/srt-to-vtt-cl.svg?branch=master)](https://travis-ci.org/nwoltman/srt-to-vtt-cl)
+[![Build Status](https://github.com/nwoltman/srt-to-vtt-cl/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/nwoltman/srt-to-vtt-cl/actions?query=branch%3Amaster)
 
 A command line tool that converts subtitle files from SubRib (.srt) format to WebVTT (.vtt) format.
 
