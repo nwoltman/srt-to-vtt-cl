@@ -1,0 +1,32 @@
+name: CI
+
+on: push
+
+jobs:
+  test:
+    strategy:
+      matrix:
+        config:
+          - {
+            os: ubuntu-latest,
+            cxx: g++,
+          }
+          - {
+            os: ubuntu-latest,
+            cxx: clang++,
+          }
+          - {
+            os: macos-latest,
+            cxx: clang++,
+          }
+    name: Test - ${{ matrix.config.os }}/${{ matrix.config.cxx }}
+    runs-on: ${{ matrix.config.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Binary
+        env:
+          CXX: ${{ matrix.config.cxx }}
+        run: make
+      - name: Run Tests
+        if: startsWith(matrix.config.os, 'macos')
+        run: make test
